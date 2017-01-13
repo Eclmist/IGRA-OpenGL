@@ -9,9 +9,9 @@
 #include <windows.h>		// Header File For Windows
 #include <gl\gl.h>			// Header File For The OpenGL32 Library
 #include <gl\glu.h>			// Header File For The GLu32 Library
-#include "Mesh.h"
-#include "GraphicsHandler.h"
-#include "Cube.h"
+#include "SceneManager.h"
+#include "Input.h"
+#include <sstream>      // std::stringstream
 
 HDC			hDC = NULL;		// Private GDI Device Context
 HGLRC		hRC = NULL;		// Permanent Rendering Context
@@ -24,10 +24,67 @@ bool	fullscreen = TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
 
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 
-/* GLOBALS */
-GraphicsHandler * graphicsHandler;
-Cube * cube;
+#define SCREEN_WIDTH 1366
+#define SCREEN_HEIGHT 768
+#define WINDOW_TITLE "CS:WENT"
 
+/* GLOBALS */
+SceneManager * sceneManager;
+
+void main()
+{}
+
+void DrawCube()
+{
+	glPushMatrix();
+	glScalef(20, 20, 20);
+	glBegin(GL_QUADS);                // Begin drawing the color cube with 6 quads
+									  // Top face (y = 1.0f)
+									  // Define vertices in counter-clockwise (CCW) order with normal pointing out
+	glColor3f(0.0f, 1.0f, 0.0f);     // Green
+	glVertex3f(1.0f, 1.0f, -1.0f);
+	glVertex3f(-1.0f, 1.0f, -1.0f);
+	glVertex3f(-1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+
+	// Bottom face (y = -1.0f)
+	glColor3f(1.0f, 0.5f, 0.0f);     // Orange
+	glVertex3f(1.0f, -1.0f, 1.0f);
+	glVertex3f(-1.0f, -1.0f, 1.0f);
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(1.0f, -1.0f, -1.0f);
+
+	// Front face  (z = 1.0f)
+	glColor3f(1.0f, 0.0f, 0.0f);     // Red
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(-1.0f, 1.0f, 1.0f);
+	glVertex3f(-1.0f, -1.0f, 1.0f);
+	glVertex3f(1.0f, -1.0f, 1.0f);
+
+	// Back face (z = -1.0f)
+	glColor3f(1.0f, 1.0f, 0.0f);     // Yellow
+	glVertex3f(1.0f, -1.0f, -1.0f);
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(-1.0f, 1.0f, -1.0f);
+	glVertex3f(1.0f, 1.0f, -1.0f);
+
+	// Left face (x = -1.0f)
+	glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+	glVertex3f(-1.0f, 1.0f, 1.0f);
+	glVertex3f(-1.0f, 1.0f, -1.0f);
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(-1.0f, -1.0f, 1.0f);
+
+	// Right face (x = 1.0f)
+	glColor3f(1.0f, 0.0f, 1.0f);     // Magenta
+	glVertex3f(1.0f, 1.0f, -1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, -1.0f, 1.0f);
+	glVertex3f(1.0f, -1.0f, -1.0f);
+	glEnd();  // End of drawing color-cube
+
+	glPopMatrix();
+}
 
 GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize The GL Window
 {
@@ -38,66 +95,66 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 
 	glViewport(0, 0, width, height);					// Reset The Current Viewport
 
+
 	glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
 	glLoadIdentity();									// Reset The Projection Matrix
 
-														// Calculate The Aspect Ratio Of The Window
-	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
-	gluLookAt(5, 5, 5, 0, 0, 0, 0, 1, 0);
+	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 1, 10000);
 
+														// Calculate The Aspect Ratio Of The Window
 	glMatrixMode(GL_MODELVIEW);							// Select The Modelview Matrix
 	glLoadIdentity();									// Reset The Modelview Matrix
+
+}
+
+int InitEngine()
+{
+	sceneManager = new SceneManager();
+	sceneManager->LoadScene("Level01");
+
+	return TRUE;
+}
+
+void TerminateEngine()
+{
+	assert(sceneManager != nullptr);
+	delete sceneManager;
 }
 
 int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 {
 	glShadeModel(GL_SMOOTH);							// Enable Smooth Shading
-	glClearColor(0.5, 0.7, 0.8, 0.5f);				// Black Background
+	glClearColor(0.5, 0.7, 0.8, 0.5f);					// Black Background
 	glClearDepth(1.0f);									// Depth Buffer Setup
 	glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glFrontFace(GL_CCW);
-	graphicsHandler = new GraphicsHandler();
-	cube = new Cube(vec3(0,0,0));
 
 	return TRUE;										// Initialization Went OK
 }
 
-
-float f = 0;
 int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 {
-
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 	glLoadIdentity();									// Reset The Current Modelview Matrix
 
-	// Camera.update()
+	//DrawCube();
+	std::stringstream s;
 
-	vec3 newRot = cube->transform.getRotation();
-	newRot.y = f * 10;
+	s << Input::getMouseDelta().x << " " << Input::getMouseDelta().y;
 
-	vec3 newPos = cube->transform.getLocalPosition();
-	newPos.x = glm::sin(f);
-
-	vec3 newScale = cube->transform.getLocalScale();
-	newScale.x = 1 + glm::sin(f) / 2;
-
-	f += 0.1;
-
-	cube->transform.setRotation(newRot);
-	cube->transform.setLocalPosition(newPos);
-	cube->transform.setLocalScale(newScale);
-
-	graphicsHandler->drawCollage();
+	SetWindowTextA(hWnd,  s.str().c_str());
+	sceneManager->GetActiveScene()->Update();
 
 	return TRUE;										// Everything Went OK
 }
 
 GLvoid KillGLWindow(GLvoid)								// Properly Kill The Window
 {
+	TerminateEngine();									// Cleanup engine pointers
+
 	if (fullscreen)										// Are We In Fullscreen Mode?
 	{
 		ChangeDisplaySettings(NULL, 0);					// If So Switch Back To The Desktop
@@ -213,7 +270,7 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
 	else
 	{
 		dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;			// Window Extended Style
-		dwStyle = WS_OVERLAPPEDWINDOW;							// Windows Style
+		dwStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;							// Windows Style
 	}
 
 	AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle);		// Adjust Window To True Requested Size
@@ -307,6 +364,13 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
 		return FALSE;								// Return FALSE
 	}
 
+	if (!InitEngine())
+	{
+		KillGLWindow();								// Reset The Display
+		MessageBox(NULL, "Engine Initialization Failed.", "ERROR", MB_OK | MB_ICONEXCLAMATION);
+		return FALSE;								// Return FALSE
+	}
+
 	return TRUE;									// Success
 }
 
@@ -317,54 +381,65 @@ LRESULT CALLBACK WndProc(HWND	hWnd,			// Handle For This Window
 {
 	switch (uMsg)									// Check For Windows Messages
 	{
-	case WM_ACTIVATE:							// Watch For Window Activate Message
-	{
-		if (!HIWORD(wParam))					// Check Minimization State
+		case WM_ACTIVATE:							// Watch For Window Activate Message
 		{
-			active = TRUE;						// Program Is Active
+			if (!HIWORD(wParam))					// Check Minimization State
+			{
+				active = TRUE;						// Program Is Active
+			}
+			else
+			{
+				active = FALSE;						// Program Is No Longer Active
+			}
+
+			return 0;								// Return To The Message Loop
 		}
-		else
+
+		case WM_SYSCOMMAND:							// Intercept System Commands
 		{
-			active = FALSE;						// Program Is No Longer Active
+			switch (wParam)							// Check System Calls
+			{
+			case SC_SCREENSAVE:					// Screensaver Trying To Start?
+			case SC_MONITORPOWER:				// Monitor Trying To Enter Powersave?
+				return 0;							// Prevent From Happening
+			}
+			break;									// Exit
 		}
 
-		return 0;								// Return To The Message Loop
-	}
-
-	case WM_SYSCOMMAND:							// Intercept System Commands
-	{
-		switch (wParam)							// Check System Calls
+		case WM_CLOSE:								// Did We Receive A Close Message?
 		{
-		case SC_SCREENSAVE:					// Screensaver Trying To Start?
-		case SC_MONITORPOWER:				// Monitor Trying To Enter Powersave?
-			return 0;							// Prevent From Happening
+			PostQuitMessage(0);						// Send A Quit Message
+			return 0;								// Jump Back
 		}
-		break;									// Exit
-	}
 
-	case WM_CLOSE:								// Did We Receive A Close Message?
-	{
-		PostQuitMessage(0);						// Send A Quit Message
-		return 0;								// Jump Back
-	}
+		case WM_KEYDOWN:							// Is A Key Being Held Down?
+		{
+			keys[wParam] = TRUE;					// If So, Mark It As TRUE
+			Input::updateInput(keys);
+			return 0;								// Jump Back
+		}
 
-	case WM_KEYDOWN:							// Is A Key Being Held Down?
-	{
-		keys[wParam] = TRUE;					// If So, Mark It As TRUE
-		return 0;								// Jump Back
-	}
+		case WM_KEYUP:								// Has A Key Been Released?
+		{
+			keys[wParam] = FALSE;					// If So, Mark It As FALSE
+			Input::updateInput(keys);
+			return 0;								// Jump Back
+		}
 
-	case WM_KEYUP:								// Has A Key Been Released?
-	{
-		keys[wParam] = FALSE;					// If So, Mark It As FALSE
-		return 0;								// Jump Back
-	}
+		case WM_SIZE:								// Resize The OpenGL Window
+		{
+			ReSizeGLScene(LOWORD(lParam), HIWORD(lParam));  // LoWord=Width, HiWord=Height
+			return 0;								// Jump Back
+		}
 
-	case WM_SIZE:								// Resize The OpenGL Window
-	{
-		ReSizeGLScene(LOWORD(lParam), HIWORD(lParam));  // LoWord=Width, HiWord=Height
-		return 0;								// Jump Back
-	}
+		case WM_MOUSEMOVE:
+		{
+
+			Input::setCurrentMousePos(vec2(LOWORD(lParam), HIWORD(lParam)));
+
+			return 0;
+
+		}
 	}
 
 	// Pass All Unhandled Messages To DefWindowProc
@@ -378,15 +453,16 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 {
 	MSG		msg;									// Windows Message Structure
 	BOOL	done = FALSE;								// Bool Variable To Exit Loop
-
+	
 														// Ask The User Which Screen Mode They Prefer
 	if (MessageBox(NULL, "Would You Like To Run In Fullscreen Mode?", "Start FullScreen?", MB_YESNO | MB_ICONQUESTION) == IDNO)
 	{
 		fullscreen = FALSE;							// Windowed Mode
 	}
 
+
 	// Create Our OpenGL Window
-	if (!CreateGLWindow("Modern OpenGL", 1920, 1200, 32, fullscreen))
+	if (!CreateGLWindow(WINDOW_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, 32, fullscreen))
 	{
 		return 0;									// Quit If Window Was Not Created
 	}
@@ -416,6 +492,7 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				}
 				else								// Not Time To Quit, Update Screen
 				{
+					Input::updateMousePos();
 					DrawGLScene();					// Draw The Scene
 					SwapBuffers(hDC);				// Swap Buffers (Double Buffering)
 				}
@@ -427,7 +504,7 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				KillGLWindow();						// Kill Our Current Window
 				fullscreen = !fullscreen;				// Toggle Fullscreen / Windowed Mode
 														// Recreate Our OpenGL Window
-				if (!CreateGLWindow("NeHe's OpenGL Framework", 640, 480, 16, fullscreen))
+				if (!CreateGLWindow(WINDOW_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, 32, fullscreen))
 				{
 					return 0;						// Quit If Window Was Not Created
 				}

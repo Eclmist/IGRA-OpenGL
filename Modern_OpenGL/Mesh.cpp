@@ -36,7 +36,8 @@ Mesh::~Mesh()
 
 void Mesh::Draw(Transform transform)
 {
-	glLoadIdentity();
+
+	glPushMatrix();
 	glTranslatef(transform.getLocalPosition().x, transform.getLocalPosition().y, transform.getLocalPosition().z);
 
 	glRotatef(transform.getRotation().x, 1, 0, 0);
@@ -67,4 +68,5 @@ void Mesh::Draw(Transform transform)
 	}
 
 	glEnd();
+	glPopMatrix();
 }

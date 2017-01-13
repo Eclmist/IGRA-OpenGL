@@ -78,6 +78,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>OpenGL32.lib;GLu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -121,11 +122,15 @@
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsHandler.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Level01.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="RaycastHit.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,10 +141,14 @@
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsHandler.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Level01.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="RaycastHit.h" />
     <ClInclude Include="Rigidbody.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

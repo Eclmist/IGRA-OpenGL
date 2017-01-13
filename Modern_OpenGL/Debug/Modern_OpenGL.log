@@ -1,25 +1,8 @@
-﻿  Transform.cpp
-  Rigidbody.cpp
-  RaycastHit.cpp
-  Physics.cpp
-z:\modern_opengl\modern_opengl\physics.h(33): warning C4002: too many actual parameters for macro 'assert'
-  Mesh.cpp
-  main.cpp
-z:\modern_opengl\modern_opengl\main.cpp(55): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-z:\modern_opengl\modern_opengl\main.cpp(88): warning C4305: '+=': truncation from 'double' to 'float'
-z:\modern_opengl\modern_opengl\main.cpp(261): warning C4838: conversion from 'int' to 'BYTE' requires a narrowing conversion
-  GraphicsHandler.cpp
-z:\modern_opengl\modern_opengl\graphicshandler.cpp(8): warning C4018: '<': signed/unsigned mismatch
-z:\modern_opengl\modern_opengl\graphicshandler.cpp(22): warning C4018: '<': signed/unsigned mismatch
-  GameObject.cpp
-  Drawable.cpp
-  Cube.cpp
-  Collider.cpp
-z:\modern_opengl\modern_opengl\physics.h(33): warning C4002: too many actual parameters for macro 'assert'
+﻿  main.cpp
+z:\modern_opengl\modern_opengl\main.cpp(127): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+z:\modern_opengl\modern_opengl\main.cpp(318): warning C4838: conversion from 'int' to 'BYTE' requires a narrowing conversion
+  Input.cpp
   Camera.cpp
-  AABB.cpp
   Generating Code...
-z:\modern_opengl\modern_opengl\aabb.cpp(43): warning C4172: returning address of local variable or temporary
-z:\modern_opengl\modern_opengl\aabb.cpp(48): warning C4172: returning address of local variable or temporary
   Modern_OpenGL.vcxproj -> Z:\Modern_OpenGL\Debug\Modern_OpenGL.exe
   Modern_OpenGL.vcxproj -> Z:\Modern_OpenGL\Debug\Modern_OpenGL.pdb (Partial PDB)
