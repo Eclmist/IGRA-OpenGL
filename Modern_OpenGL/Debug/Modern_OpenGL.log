@@ -1,0 +1,6 @@
+﻿  main.cpp
+d:\modern_opengl\modern_opengl\main.cpp(55): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+d:\modern_opengl\modern_opengl\main.cpp(88): warning C4305: '+=': truncation from 'double' to 'float'
+d:\modern_opengl\modern_opengl\main.cpp(261): warning C4838: conversion from 'int' to 'BYTE' requires a narrowing conversion
+  Modern_OpenGL.vcxproj -> D:\Modern_OpenGL\Debug\Modern_OpenGL.exe
+  Modern_OpenGL.vcxproj -> D:\Modern_OpenGL\Debug\Modern_OpenGL.pdb (Partial PDB)
