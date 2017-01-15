@@ -59,16 +59,21 @@ void Camera::UpdateCamera()
 		cout << dir.x << "," << dir.y << "," << dir.z << endl;
 	}
 
-	if (Input::getKey('W')) pos += dir / 10.0f;
-	if (Input::getKey('S')) pos -= dir / 10.0f;
-	if (Input::getKey('A')) pos += right / 10.0f;
-	if (Input::getKey('D')) pos -= right / 10.0f;
-	if (Input::getKey('q')) pos -= up / 10.0f;
-	if (Input::getKey(' ')) pos += up / 10.0f;
+	if (Input::getKey('W')) pos += dir / 100.0f;
+	if (Input::getKey('S')) pos -= dir / 100.0f;
+	if (Input::getKey('A')) pos += right / 100.0f;
+	if (Input::getKey('D')) pos -= right / 100.0f;
+	if (Input::getKey('q')) pos -= up / 100.0f;
+	if (Input::getKey(' ')) pos += up / 100.0f;
 
-	YawCamera(Input::getMouseDelta().x / 3);
-	PitchCamera(-Input::getMouseDelta().y / 3);
+	if (Input::getKey('I')) PitchCamera(1);
+	if (Input::getKey('J')) YawCamera(-1);
+	if (Input::getKey('K')) PitchCamera(-1);
+	if (Input::getKey('L')) YawCamera(1);
 
+
+	PitchCamera(-Input::getMouseDelta().y / 10);
+	YawCamera(Input::getMouseDelta().x / 10);
 
 	gluLookAt(pos.x, pos.y, pos.z,
 		pos.x + dir.x, pos.y + dir.y, pos.z + dir.z,

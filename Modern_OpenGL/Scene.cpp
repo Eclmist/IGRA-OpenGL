@@ -10,3 +10,11 @@ Scene::~Scene()
 {
 	delete graphicsHandler;
 }
+
+void Scene::Unload()
+{
+	for (auto it = gameobjects.begin(); it != gameobjects.end(); ++it) {
+		delete *it;
+	}
+	gameobjects.clear();
+}

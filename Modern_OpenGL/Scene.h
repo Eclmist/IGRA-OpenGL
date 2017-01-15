@@ -12,7 +12,7 @@ public:
 
 	virtual void Load() = 0;
 	virtual void Update() = 0;
-	virtual void Unload() = 0;
+	virtual void Unload();
 
 	std::string name;
 
@@ -20,5 +20,6 @@ protected:
 
 	virtual void Draw() = 0;
 	GraphicsHandler * graphicsHandler;
+	std::vector<GameObject*> gameobjects;
 };
 

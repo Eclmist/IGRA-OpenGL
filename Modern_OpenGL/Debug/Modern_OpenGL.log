@@ -1,8 +1,5 @@
-﻿  main.cpp
-z:\modern_opengl\modern_opengl\main.cpp(127): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-z:\modern_opengl\modern_opengl\main.cpp(318): warning C4838: conversion from 'int' to 'BYTE' requires a narrowing conversion
-  Input.cpp
-  Camera.cpp
-  Generating Code...
+﻿  Level01.cpp
+z:\modern_opengl\modern_opengl\level01.h(17): warning C4305: 'argument': truncation from 'double' to 'float'
+z:\modern_opengl\modern_opengl\level01.cpp(38): warning C4305: '+=': truncation from 'double' to 'float'
   Modern_OpenGL.vcxproj -> Z:\Modern_OpenGL\Debug\Modern_OpenGL.exe
   Modern_OpenGL.vcxproj -> Z:\Modern_OpenGL\Debug\Modern_OpenGL.pdb (Partial PDB)

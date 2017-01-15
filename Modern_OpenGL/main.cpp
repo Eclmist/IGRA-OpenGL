@@ -31,61 +31,6 @@ LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 /* GLOBALS */
 SceneManager * sceneManager;
 
-void main()
-{}
-
-void DrawCube()
-{
-	glPushMatrix();
-	glScalef(20, 20, 20);
-	glBegin(GL_QUADS);                // Begin drawing the color cube with 6 quads
-									  // Top face (y = 1.0f)
-									  // Define vertices in counter-clockwise (CCW) order with normal pointing out
-	glColor3f(0.0f, 1.0f, 0.0f);     // Green
-	glVertex3f(1.0f, 1.0f, -1.0f);
-	glVertex3f(-1.0f, 1.0f, -1.0f);
-	glVertex3f(-1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
-
-	// Bottom face (y = -1.0f)
-	glColor3f(1.0f, 0.5f, 0.0f);     // Orange
-	glVertex3f(1.0f, -1.0f, 1.0f);
-	glVertex3f(-1.0f, -1.0f, 1.0f);
-	glVertex3f(-1.0f, -1.0f, -1.0f);
-	glVertex3f(1.0f, -1.0f, -1.0f);
-
-	// Front face  (z = 1.0f)
-	glColor3f(1.0f, 0.0f, 0.0f);     // Red
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(-1.0f, 1.0f, 1.0f);
-	glVertex3f(-1.0f, -1.0f, 1.0f);
-	glVertex3f(1.0f, -1.0f, 1.0f);
-
-	// Back face (z = -1.0f)
-	glColor3f(1.0f, 1.0f, 0.0f);     // Yellow
-	glVertex3f(1.0f, -1.0f, -1.0f);
-	glVertex3f(-1.0f, -1.0f, -1.0f);
-	glVertex3f(-1.0f, 1.0f, -1.0f);
-	glVertex3f(1.0f, 1.0f, -1.0f);
-
-	// Left face (x = -1.0f)
-	glColor3f(0.0f, 0.0f, 1.0f);     // Blue
-	glVertex3f(-1.0f, 1.0f, 1.0f);
-	glVertex3f(-1.0f, 1.0f, -1.0f);
-	glVertex3f(-1.0f, -1.0f, -1.0f);
-	glVertex3f(-1.0f, -1.0f, 1.0f);
-
-	// Right face (x = 1.0f)
-	glColor3f(1.0f, 0.0f, 1.0f);     // Magenta
-	glVertex3f(1.0f, 1.0f, -1.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, -1.0f, 1.0f);
-	glVertex3f(1.0f, -1.0f, -1.0f);
-	glEnd();  // End of drawing color-cube
-
-	glPopMatrix();
-}
-
 GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize The GL Window
 {
 	if (height == 0)									// Prevent A Divide By Zero By
@@ -107,8 +52,11 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 
 }
 
-int InitEngine()
+int InitEngine(HWND & hWnd)
 {
+	ShowCursor(false);
+	Input::initializeInput(hWnd);
+	
 	sceneManager = new SceneManager();
 	sceneManager->LoadScene("Level01");
 
@@ -129,7 +77,7 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 	glFrontFace(GL_CCW);
 
 	return TRUE;										// Initialization Went OK
@@ -364,7 +312,7 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
 		return FALSE;								// Return FALSE
 	}
 
-	if (!InitEngine())
+	if (!InitEngine(hWnd))
 	{
 		KillGLWindow();								// Reset The Display
 		MessageBox(NULL, "Engine Initialization Failed.", "ERROR", MB_OK | MB_ICONEXCLAMATION);
@@ -375,9 +323,9 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
 }
 
 LRESULT CALLBACK WndProc(HWND	hWnd,			// Handle For This Window
-	UINT	uMsg,			// Message For This Window
-	WPARAM	wParam,			// Additional Message Information
-	LPARAM	lParam)			// Additional Message Information
+	UINT	uMsg,								// Message For This Window
+	WPARAM	wParam,								// Additional Message Information
+	LPARAM	lParam)								// Additional Message Information
 {
 	switch (uMsg)									// Check For Windows Messages
 	{
@@ -415,14 +363,14 @@ LRESULT CALLBACK WndProc(HWND	hWnd,			// Handle For This Window
 		case WM_KEYDOWN:							// Is A Key Being Held Down?
 		{
 			keys[wParam] = TRUE;					// If So, Mark It As TRUE
-			Input::updateInput(keys);
+			Input::updateKeyStates(keys);
 			return 0;								// Jump Back
 		}
 
 		case WM_KEYUP:								// Has A Key Been Released?
 		{
 			keys[wParam] = FALSE;					// If So, Mark It As FALSE
-			Input::updateInput(keys);
+			Input::updateKeyStates(keys);
 			return 0;								// Jump Back
 		}
 
@@ -431,15 +379,25 @@ LRESULT CALLBACK WndProc(HWND	hWnd,			// Handle For This Window
 			ReSizeGLScene(LOWORD(lParam), HIWORD(lParam));  // LoWord=Width, HiWord=Height
 			return 0;								// Jump Back
 		}
-
-		case WM_MOUSEMOVE:
+		case WM_INPUT:
 		{
+			UINT dwSize = 40;
+			static BYTE lpb[40];
 
-			Input::setCurrentMousePos(vec2(LOWORD(lParam), HIWORD(lParam)));
+			GetRawInputData((HRAWINPUT)lParam, RID_INPUT,
+				lpb, &dwSize, sizeof(RAWINPUTHEADER));
 
-			return 0;
+			RAWINPUT* raw = (RAWINPUT*)lpb;
 
+			if (raw->header.dwType == RIM_TYPEMOUSE)
+			{
+				int xPosRelative = raw->data.mouse.lLastX;
+				int yPosRelative = raw->data.mouse.lLastY;
+				Input::setMouseDelta(vec2(xPosRelative, yPosRelative));
+			}
+			break;
 		}
+
 	}
 
 	// Pass All Unhandled Messages To DefWindowProc
@@ -492,7 +450,8 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				}
 				else								// Not Time To Quit, Update Screen
 				{
-					Input::updateMousePos();
+					SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+					Input::update();
 					DrawGLScene();					// Draw The Scene
 					SwapBuffers(hDC);				// Swap Buffers (Double Buffering)
 				}

@@ -2,12 +2,28 @@
 
 bool Input::lastKeys[] = {};
 bool Input::keys[] = {};
-glm::vec2 Input::lastMousePos;
 glm::vec2 Input::deltaMousePos;
-glm::vec2 Input::currentMousePos;
+glm::vec2 Input::newDeltaMousePos;
+RAWINPUTDEVICE Input::Rid[] = {};
 
+/* WM_INPUT DEFININITIONS */
+#ifndef HID_USAGE_PAGE_GENERIC
+#define HID_USAGE_PAGE_GENERIC         ((USHORT) 0x01)
+#endif
+#ifndef HID_USAGE_GENERIC_MOUSE
+#define HID_USAGE_GENERIC_MOUSE        ((USHORT) 0x02)
+#endif
 
-void Input::updateInput(bool currentKeys[256])
+void Input::initializeInput(HWND & hWnd)
+{
+	Rid[0].usUsagePage = HID_USAGE_PAGE_GENERIC;
+	Rid[0].usUsage = HID_USAGE_GENERIC_MOUSE;
+	Rid[0].dwFlags = RIDEV_INPUTSINK;
+	Rid[0].hwndTarget = hWnd;
+	RegisterRawInputDevices(Rid, 1, sizeof(Rid[0]));
+}
+
+void Input::updateKeyStates(bool currentKeys[256])
 {
 	for (int i = 0; i < 256; i++)
 	{
@@ -20,10 +36,11 @@ void Input::updateInput(bool currentKeys[256])
 	}
 }
 
-void Input::updateMousePos()
+void Input::update()
 {
-	deltaMousePos = currentMousePos - lastMousePos;
-	lastMousePos = currentMousePos;
+	deltaMousePos = newDeltaMousePos;
+	newDeltaMousePos.x = 0;
+	newDeltaMousePos.y = 0;
 }
 
 bool Input::getKey(char key)
@@ -41,9 +58,9 @@ bool Input::getKeyUp(char key)
 	return lastKeys[key] && !keys[key];
 }
 
-void Input::setCurrentMousePos(glm::vec2 pos)
+void Input::setMouseDelta(glm::vec2 pos)
 {
-	currentMousePos = pos;
+	newDeltaMousePos = pos;
 }
 
 glm::vec2 Input::getMouseDelta()
