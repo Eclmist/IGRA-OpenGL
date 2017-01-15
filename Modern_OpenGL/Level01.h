@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "Camera.h"
+#include "Skybox.h"
 
 class Level01 :	public Scene
 {
@@ -15,7 +16,7 @@ private:
 	virtual void Draw();
 
 	Camera camera = Camera(45, 16 / 9, 0.001, 1000);
-
+	Skybox * skybox;
 
 };
 

@@ -75,6 +75,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>OpenGL32.lib;GLu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -131,6 +132,8 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,7 +152,13 @@
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Skybox.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\Cube1.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

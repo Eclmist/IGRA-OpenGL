@@ -60,10 +60,10 @@ void Mesh::Draw(Transform transform)
 
 	for (int i = 0; i < numVertices; i++)
 	{
-		glColor3f(i * 0.1F, i * 0.051F, 3 - i * 0.22F);
+		//glColor3f(i * 0.1F, i * 0.051F, 3 - i * 0.22F);
 		glVertex3f(vertices[i].position.x, vertices[i].position.y, vertices[i].position.z);
-		//glTexCoord2f(vertices[i].texCoord.x, vertices[i].texCoord.y);
-		//glNormal3f(vertices[i].normal.x, vertices[i].normal.y, vertices[i].normal.z);
+		glTexCoord2f(vertices[i].texCoord.x, vertices[i].texCoord.y);
+		glNormal3f(vertices[i].normal.x, vertices[i].normal.y, vertices[i].normal.z);
 
 	}
 

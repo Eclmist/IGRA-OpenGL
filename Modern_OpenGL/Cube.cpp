@@ -2,13 +2,9 @@
 
 float Cube::radius = 1;
 
-Cube::Cube()
-{
-
-}
-
 Cube::Cube(vec3 position)
 {
+	texture = new Texture("resources/Cube1.jpg");
 	transform.setLocalPosition(position);
 	setupMeshInformation();
 }
@@ -16,6 +12,9 @@ Cube::Cube(vec3 position)
 
 Cube::~Cube()
 {
+	delete mesh;
+	//delete[] vertexArr; TODO: FIX
+	delete texture;
 }
 
 #define r radius
@@ -74,5 +73,10 @@ void Cube::setupMeshInformation()
 
 void Cube::draw()
 {
+	if (texture != nullptr)
+		texture->Bind();
+
+	glEnable(GL_TEXTURE_2D);
 	mesh->Draw(transform);
+	glDisable(GL_TEXTURE_2D);
 }

@@ -8,7 +8,7 @@
 #include <gl/GLU.h>
 #include "Input.h"
 
-#define DEBUGCAMERA true
+#define DEBUGCAMERA false
 
 using namespace glm;
 using namespace std;

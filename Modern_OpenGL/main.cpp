@@ -6,12 +6,15 @@
 *		Visit My Site At nehe.gamedev.net
 */
 
+#include <stdio.h>
+#include <io.h>
+#include <fcntl.h>
+#include <sstream>      // std::stringstream
 #include <windows.h>		// Header File For Windows
 #include <gl\gl.h>			// Header File For The OpenGL32 Library
 #include <gl\glu.h>			// Header File For The GLu32 Library
 #include "SceneManager.h"
 #include "Input.h"
-#include <sstream>      // std::stringstream
 
 HDC			hDC = NULL;		// Private GDI Device Context
 HGLRC		hRC = NULL;		// Permanent Rendering Context
@@ -27,7 +30,7 @@ LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 #define SCREEN_WIDTH 1366
 #define SCREEN_HEIGHT 768
 #define WINDOW_TITLE "CS:WENT"
-
+#define DEBUG_CONSOLE TRUE
 /* GLOBALS */
 SceneManager * sceneManager;
 
@@ -77,7 +80,7 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glFrontFace(GL_CCW);
 
 	return TRUE;										// Initialization Went OK
@@ -404,6 +407,39 @@ LRESULT CALLBACK WndProc(HWND	hWnd,			// Handle For This Window
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
+void CreateDebugConsole() {
+
+	CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+	int consoleHandleR, consoleHandleW;
+	long stdioHandle;
+	FILE *fptr;
+
+	AllocConsole();
+	freopen("CONOUT$", "w", stdout);
+	SetConsoleTitle("Debug Console");
+
+	EnableMenuItem(GetSystemMenu(GetConsoleWindow(), FALSE), SC_CLOSE, MF_GRAYED);
+	DrawMenuBar(GetConsoleWindow());
+
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &consoleInfo);
+
+	stdioHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
+	consoleHandleR = _open_osfhandle(stdioHandle, _O_TEXT);
+	fptr = _fdopen(consoleHandleR, "r");
+	*stdin = *fptr;
+	setvbuf(stdin, NULL, _IONBF, 0);
+
+	stdioHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+	consoleHandleW = _open_osfhandle(stdioHandle, _O_TEXT);
+	fptr = _fdopen(consoleHandleW, "w");
+	*stdout = *fptr;
+	setvbuf(stdout, NULL, _IONBF, 0);
+
+	stdioHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
+	*stderr = *fptr;
+	setvbuf(stderr, NULL, _IONBF, 0);
+}
+
 int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 	HINSTANCE	hPrevInstance,		// Previous Instance
 	LPSTR		lpCmdLine,			// Command Line Parameters
@@ -412,6 +448,12 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 	MSG		msg;									// Windows Message Structure
 	BOOL	done = FALSE;								// Bool Variable To Exit Loop
 	
+
+	if (DEBUG_CONSOLE)
+	{
+		CreateDebugConsole();
+		std::cout << "Console loaded" << std::endl;
+	}
 														// Ask The User Which Screen Mode They Prefer
 	if (MessageBox(NULL, "Would You Like To Run In Fullscreen Mode?", "Start FullScreen?", MB_YESNO | MB_ICONQUESTION) == IDNO)
 	{
@@ -477,4 +519,3 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 }
 
 #pragma endregion
-

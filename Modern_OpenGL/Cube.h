@@ -4,11 +4,11 @@
 #include "Drawable.h"
 #include "GameObject.h"
 #include "Mesh.h"
+#include "Texture.h"
 
 class Cube : public Drawable, public GameObject
 {
 public:
-	Cube();
 	Cube(vec3 position = vec3(0, 0, 0));
 
 	~Cube();
@@ -17,11 +17,11 @@ public:
 protected:
 
 	void setupMeshInformation();
-
 	void draw() override;
-	Mesh * mesh;
 
+	Mesh * mesh;
 	Vertex * vertexArr;
 	int numVertices;
+	Texture * texture;
 };
 

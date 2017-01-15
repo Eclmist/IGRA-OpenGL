@@ -14,6 +14,7 @@ SceneManager::~SceneManager()
 	for (auto it = loadedScene.begin(); it != loadedScene.end(); ++it) {
 		delete *it;
 	}
+
 	loadedScene.clear();
 }
 

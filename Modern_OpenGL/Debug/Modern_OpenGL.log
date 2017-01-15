@@ -1,5 +1,3 @@
-﻿  Level01.cpp
-z:\modern_opengl\modern_opengl\level01.h(17): warning C4305: 'argument': truncation from 'double' to 'float'
-z:\modern_opengl\modern_opengl\level01.cpp(38): warning C4305: '+=': truncation from 'double' to 'float'
+﻿  Skybox.cpp
   Modern_OpenGL.vcxproj -> Z:\Modern_OpenGL\Debug\Modern_OpenGL.exe
   Modern_OpenGL.vcxproj -> Z:\Modern_OpenGL\Debug\Modern_OpenGL.pdb (Partial PDB)
