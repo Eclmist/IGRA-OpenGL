@@ -1,7 +1,5 @@
 #include "Skybox.h"
 
-
-
 Skybox::Skybox()
 {
 	texture = new Texture("resources/skybox.png", 4);
@@ -33,52 +31,53 @@ void Skybox::Update(vec3 cameraPos)
 
 void Skybox::setupMeshInformation()
 {
-	Vertex verts[] =
-	{
-		// TOP
-		Vertex(vec3(r,r - 1.0F,-r), texture->getTexCoordOffset(textureIndex_top) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(0,1,0)),
-		Vertex(vec3(-r,r - 1.0F,-r), texture->getTexCoordOffset(textureIndex_top) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(0,1,0)),
-		Vertex(vec3(-r,r - 1.0F,r), texture->getTexCoordOffset(textureIndex_top) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(0,1,0)),
-		Vertex(vec3(r,r - 1.0F,r), texture->getTexCoordOffset(textureIndex_top) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(0,1,0)),
+	//Vertex verts[] =
+	//{
+	//	// TOP
+	//	Vertex(vec3(r,r - 1.0F,-r), texture->getTexCoordOffset(textureIndex_top) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(0,1,0)),
+	//	Vertex(vec3(-r,r - 1.0F,-r), texture->getTexCoordOffset(textureIndex_top) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(0,1,0)),
+	//	Vertex(vec3(-r,r - 1.0F,r), texture->getTexCoordOffset(textureIndex_top) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(0,1,0)),
+	//	Vertex(vec3(r,r - 1.0F,r), texture->getTexCoordOffset(textureIndex_top) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(0,1,0)),
 
-		// BOTTOM
-		Vertex(vec3(r,-r,-r), texture->getTexCoordOffset(textureIndex_bottom) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(0,-1,0)),
-		Vertex(vec3(r,-r,r), texture->getTexCoordOffset(textureIndex_bottom) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(0,-1,0)),
-		Vertex(vec3(-r,-r,r), texture->getTexCoordOffset(textureIndex_bottom) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(0,-1,0)),
-		Vertex(vec3(-r,-r,-r), texture->getTexCoordOffset(textureIndex_bottom) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(0,-1,0)),
+	//	// BOTTOM
+	//	Vertex(vec3(r,-r,-r), texture->getTexCoordOffset(textureIndex_bottom) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(0,-1,0)),
+	//	Vertex(vec3(r,-r,r), texture->getTexCoordOffset(textureIndex_bottom) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(0,-1,0)),
+	//	Vertex(vec3(-r,-r,r), texture->getTexCoordOffset(textureIndex_bottom) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(0,-1,0)),
+	//	Vertex(vec3(-r,-r,-r), texture->getTexCoordOffset(textureIndex_bottom) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(0,-1,0)),
 
-		// BACK
-		Vertex(vec3(r,r,r), texture->getTexCoordOffset(textureIndex_back) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(0,0,1)),
-		Vertex(vec3(r,-r,r), texture->getTexCoordOffset(textureIndex_back) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(0,0,1)),
-		Vertex(vec3(-r,-r,r), texture->getTexCoordOffset(textureIndex_back) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(0,0,1)),
-		Vertex(vec3(-r,r,r), texture->getTexCoordOffset(textureIndex_back) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(0,0,1)),
+	//	// BACK
+	//	Vertex(vec3(r,r,r), texture->getTexCoordOffset(textureIndex_back) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(0,0,1)),
+	//	Vertex(vec3(r,-r,r), texture->getTexCoordOffset(textureIndex_back) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(0,0,1)),
+	//	Vertex(vec3(-r,-r,r), texture->getTexCoordOffset(textureIndex_back) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(0,0,1)),
+	//	Vertex(vec3(-r,r,r), texture->getTexCoordOffset(textureIndex_back) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(0,0,1)),
 
-		// FRONT
-		Vertex(vec3(r,r, -r), texture->getTexCoordOffset(textureIndex_front) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(0,0,1)),
-		Vertex(vec3(-r,r,-r), texture->getTexCoordOffset(textureIndex_front) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(0,0,1)),
-		Vertex(vec3(-r,-r,-r), texture->getTexCoordOffset(textureIndex_front) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(0,0,1)),
-		Vertex(vec3(r,-r,-r), texture->getTexCoordOffset(textureIndex_front) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(0,0,1)),
+	//	// FRONT
+	//	Vertex(vec3(r,r, -r), texture->getTexCoordOffset(textureIndex_front) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(0,0,1)),
+	//	Vertex(vec3(-r,r,-r), texture->getTexCoordOffset(textureIndex_front) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(0,0,1)),
+	//	Vertex(vec3(-r,-r,-r), texture->getTexCoordOffset(textureIndex_front) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(0,0,1)),
+	//	Vertex(vec3(r,-r,-r), texture->getTexCoordOffset(textureIndex_front) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(0,0,1)),
 
-		// RIGHT
-		Vertex(vec3(r,r,-r), texture->getTexCoordOffset(textureIndex_right) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(-1,0,0)),
-		Vertex(vec3(r,-r,-r), texture->getTexCoordOffset(textureIndex_right) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(-1,0,0)),
-		Vertex(vec3(r,-r, r), texture->getTexCoordOffset(textureIndex_right) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(-1,0,0)),
-		Vertex(vec3(r,r,r), texture->getTexCoordOffset(textureIndex_right) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(-1,0,0)),
+	//	// RIGHT
+	//	Vertex(vec3(r,r,-r), texture->getTexCoordOffset(textureIndex_right) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(-1,0,0)),
+	//	Vertex(vec3(r,-r,-r), texture->getTexCoordOffset(textureIndex_right) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(-1,0,0)),
+	//	Vertex(vec3(r,-r, r), texture->getTexCoordOffset(textureIndex_right) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(-1,0,0)),
+	//	Vertex(vec3(r,r,r), texture->getTexCoordOffset(textureIndex_right) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(-1,0,0)),
 
-		// LEFT
-		Vertex(vec3(-r,r,-r), texture->getTexCoordOffset(textureIndex_left) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(-1,0,0)),
-		Vertex(vec3(-r,r, r), texture->getTexCoordOffset(textureIndex_left) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(-1,0,0)),
-		Vertex(vec3(-r,-r,r), texture->getTexCoordOffset(textureIndex_left) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(-1,0,0)),
-		Vertex(vec3(-r,-r,-r), texture->getTexCoordOffset(textureIndex_left) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(-1,0,0)),
-	};
+	//	// LEFT
+	//	Vertex(vec3(-r,r,-r), texture->getTexCoordOffset(textureIndex_left) + vec2(1.0 / texture->rows, 0.0 / texture->rows), vec3(-1,0,0)),
+	//	Vertex(vec3(-r,r, r), texture->getTexCoordOffset(textureIndex_left) + vec2(0.0 / texture->rows, 0.0 / texture->rows), vec3(-1,0,0)),
+	//	Vertex(vec3(-r,-r,r), texture->getTexCoordOffset(textureIndex_left) + vec2(0.0 / texture->rows, 1.0 / texture->rows), vec3(-1,0,0)),
+	//	Vertex(vec3(-r,-r,-r), texture->getTexCoordOffset(textureIndex_left) + vec2(1.0 / texture->rows, 1.0 / texture->rows), vec3(-1,0,0)),
+	//};
 
-	vertexArr = new Vertex[sizeof(verts) / sizeof(Vertex)];
+	//vertexArr = new Vertex[sizeof(verts) / sizeof(Vertex)];
 
-	memcpy(vertexArr, verts, sizeof(verts));
+	//memcpy(vertexArr, verts, sizeof(verts));
 
-	numVertices = sizeof(verts) / sizeof(vertexArr[0]);
+	//numVertices = sizeof(verts) / sizeof(vertexArr[0]);
+	SamLoader::LoadModel("resources/model/skybox.obj", vertexArr, numVertices);
 
-	mesh = new Mesh(vertexArr, numVertices, QUADS);
+	mesh = new Mesh(vertexArr, numVertices, TRIANGLES);
 
 }
 

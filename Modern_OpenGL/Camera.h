@@ -4,9 +4,6 @@ using namespace glm;
 
 class Camera
 {
-	float32 pitch = 0;
-	float32 yaw = 0;
-
 	void UpdateLookAt();
 public:
 	Camera();
@@ -30,6 +27,9 @@ public:
 
 	mat4 view;
 	mat4 proj;
+
+	float32 pitch = 0;
+	float32 yaw = 0;
 
 	float nearClip, farClip;
 

@@ -10,7 +10,6 @@ class Cube : public Drawable, public GameObject
 {
 public:
 	Cube(vec3 position = vec3(0, 0, 0));
-
 	~Cube();
 
 	static float radius;

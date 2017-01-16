@@ -1,7 +1,8 @@
 #pragma once
 #include "Mesh.h"
 #include "GraphicsHandler.h"
-#include "Cube.h"
+#include "GameObject.h"
+
 
 class Scene
 {

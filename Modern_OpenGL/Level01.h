@@ -15,7 +15,7 @@ public:
 private:
 	virtual void Draw();
 
-	Camera camera = Camera(45, 16 / 9, 0.001, 1000);
+	Camera camera = Camera(45, 16 / 9, 0.1, 1000);
 	Skybox * skybox;
 
 };

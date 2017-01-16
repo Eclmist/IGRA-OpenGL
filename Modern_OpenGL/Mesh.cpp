@@ -22,7 +22,7 @@ Mesh::Mesh()
 {
 }
 
-Mesh::Mesh(Vertex* vertices, unsigned short numVertices, RenderMode renderMode) : 
+Mesh::Mesh(Vertex* vertices, unsigned long numVertices, RenderMode renderMode) : 
 	vertices(vertices), numVertices(numVertices), renderMode(renderMode)
 {
 	
@@ -39,13 +39,10 @@ void Mesh::Draw(Transform transform)
 
 	glPushMatrix();
 	glTranslatef(transform.getLocalPosition().x, transform.getLocalPosition().y, transform.getLocalPosition().z);
-
-	glRotatef(transform.getRotation().x, 1, 0, 0);
-	glRotatef(transform.getRotation().y, 0, 1, 0);
 	glRotatef(transform.getRotation().z, 0, 0, 1);
-
+	glRotatef(transform.getRotation().y, 0, 1, 0);
+	glRotatef(transform.getRotation().x, 1, 0, 0);
 	glScalef(transform.getLocalScale().x, transform.getLocalScale().y, transform.getLocalScale().z);
-
 
 	if (renderMode == TRIANGLES)
 	{
