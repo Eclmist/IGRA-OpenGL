@@ -15,11 +15,16 @@ public:
 	virtual void Unload();
 
 	std::string name;
+	bool sceneDebug = false;
 
 protected:
 
-	virtual void Draw() = 0;
+	virtual void Draw();
 	GraphicsHandler * graphicsHandler;
 	std::vector<GameObject*> gameobjects;
+
+	virtual void DrawDebugInfo();
+	void DrawAxisSystem();
+
 };
 

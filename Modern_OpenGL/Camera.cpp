@@ -6,7 +6,7 @@
 #include <Windows.h>
 #include <gl/GL.h>
 #include <gl/GLU.h>
-#include "Input.h"
+#include "EngineCore.h"
 
 #define DEBUGCAMERA false
 
@@ -48,6 +48,9 @@ Camera::~Camera()
 {
 }
 
+#define movespeed 10.0f
+#define mouseSensitivity 10.0f
+
 void Camera::UpdateCamera()
 {
 	view = lookAt(pos, pos + dir, up);
@@ -59,21 +62,14 @@ void Camera::UpdateCamera()
 		cout << dir.x << "," << dir.y << "," << dir.z << endl;
 	}
 
-	if (Input::getKey('W')) pos += dir / 100.0f;
-	if (Input::getKey('S')) pos -= dir / 100.0f;
-	if (Input::getKey('A')) pos += right / 100.0f;
-	if (Input::getKey('D')) pos -= right / 100.0f;
-	if (Input::getKey('q')) pos -= up / 100.0f;
-	if (Input::getKey(' ')) pos += up / 100.0f;
-
-	if (Input::getKey('I')) PitchCamera(1);
-	if (Input::getKey('J')) YawCamera(-1);
-	if (Input::getKey('K')) PitchCamera(-1);
-	if (Input::getKey('L')) YawCamera(1);
+	if (Input::getKey('W')) pos += dir * Time::deltaTime() * movespeed;
+	if (Input::getKey('S')) pos -= dir * Time::deltaTime() * movespeed;
+	if (Input::getKey('A')) pos += right * Time::deltaTime() * movespeed;
+	if (Input::getKey('D')) pos -= right * Time::deltaTime() * movespeed;
 
 
-	PitchCamera(-Input::getMouseDelta().y / 10);
-	YawCamera(Input::getMouseDelta().x / 10);
+	PitchCamera(-Input::getMouseDelta().y * Time::deltaTime() * mouseSensitivity);
+	YawCamera(Input::getMouseDelta().x * Time::deltaTime() * mouseSensitivity);
 
 	gluLookAt(pos.x, pos.y, pos.z,
 		pos.x + dir.x, pos.y + dir.y, pos.z + dir.z,

@@ -13,8 +13,7 @@
 #include <windows.h>		// Header File For Windows
 #include <gl\gl.h>			// Header File For The OpenGL32 Library
 #include <gl\glu.h>			// Header File For The GLu32 Library
-#include "SceneManager.h"
-#include "Input.h"
+#include "EngineCore.h"
 
 HDC			hDC = NULL;		// Private GDI Device Context
 HGLRC		hRC = NULL;		// Permanent Rendering Context
@@ -33,6 +32,7 @@ LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 #define DEBUG_CONSOLE TRUE
 /* GLOBALS */
 SceneManager * sceneManager;
+
 
 GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize The GL Window
 {
@@ -58,8 +58,10 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 int InitEngine(HWND & hWnd)
 {
 	ShowCursor(false);
+
+	new Time();
 	Input::initializeInput(hWnd);
-	
+
 	sceneManager = new SceneManager();
 	sceneManager->LoadScene("Level01");
 
@@ -91,12 +93,8 @@ int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 	glLoadIdentity();									// Reset The Current Modelview Matrix
 
-	//DrawCube();
-	std::stringstream s;
-
-	s << Input::getMouseDelta().x << " " << Input::getMouseDelta().y;
-
-	SetWindowTextA(hWnd,  s.str().c_str());
+	
+	
 	sceneManager->GetActiveScene()->Update();
 
 	return TRUE;										// Everything Went OK
@@ -493,6 +491,7 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				else								// Not Time To Quit, Update Screen
 				{
 					SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+					Time::update();
 					Input::update();
 					DrawGLScene();					// Draw The Scene
 					SwapBuffers(hDC);				// Swap Buffers (Double Buffering)
