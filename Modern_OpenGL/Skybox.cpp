@@ -4,6 +4,8 @@ Skybox::Skybox()
 {
 	texture = new Texture("resources/skybox.png", 4);
 	transform.setLocalPosition(vec3(0,0,0));
+	transform.setLocalScale(vec3(10.0f));
+
 	setupMeshInformation();
 }
 

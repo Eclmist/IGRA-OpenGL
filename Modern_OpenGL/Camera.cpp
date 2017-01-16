@@ -49,7 +49,7 @@ Camera::~Camera()
 }
 
 #define movespeed 10.0f
-#define mouseSensitivity 10.0f
+#define mouseSensitivity 20.0f
 
 void Camera::UpdateCamera()
 {
