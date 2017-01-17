@@ -59,9 +59,6 @@ int InitEngine(HWND & hWnd)
 {
 	ShowCursor(false);
 
-	// Init Time functions
-	new Time();
-
 	// Init Input functions
 	Input::initializeInput(hWnd);
 
@@ -71,6 +68,9 @@ int InitEngine(HWND & hWnd)
 	// Init Scene functions
 	sceneManager = new SceneManager();
 	sceneManager->LoadScene("Level01");
+
+	// Init Time functions (MUST BE LAST)
+	new Time();
 
 	return TRUE;
 }

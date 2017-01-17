@@ -1,18 +1,22 @@
 ﻿#pragma once
 #include <detail/type_vec3.hpp>
 
+class GameObject;
+
 struct AABB
 {
-	AABB();
-	AABB(glm::vec3 pos);
-	AABB(glm::vec3 pos, glm::vec3 halfSize);
-	AABB(AABB&);
+	AABB(GameObject &, glm::vec3 pos = glm::vec3(0.0f), glm::vec3 halfSize = glm::vec3(0.0f));
+	AABB(AABB& other);
+
+	unsigned int uid;
 
 	glm::vec3 pos;
 	glm::vec3 halfSize; //TODO: Refactor to "Bounds" 
 
 	glm::vec3 Size() const;
 	bool CheckOverlap(const AABB &other) const;
+
+	void UpdatePosition();
 
 	glm::vec3& leftBottomBack();
 	glm::vec3& rightTopFront();
@@ -23,5 +27,10 @@ struct AABB
 	float right();
 	float front();
 	float back();
+
+	GameObject & gameObject;
+
+private:
+	static unsigned int uidCurrent;
 
 };

@@ -40,7 +40,7 @@ void Scene::DrawDebugInfo()
 	// Position The Text On The Screen
 
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 12; i++)
 	{
 		glRasterPos2f(debugStringXPos, debugStringYPos - i * 0.02F);
 		PrintLine(i + 1);
@@ -66,6 +66,30 @@ void Scene::PrintLine(int id)
 		break;
 	case 4:
 		UI::glPrint(debugLine4.c_str());
+		break;
+	case 5:
+		UI::glPrint(debugLine5.c_str());
+		break;
+	case 6:
+		UI::glPrint(debugLine6.c_str());
+		break;
+	case 7:
+		UI::glPrint(debugLine7.c_str());
+		break;
+	case 8:
+		UI::glPrint(debugLine8.c_str());
+		break;
+	case 9:
+		UI::glPrint(debugLine9.c_str());
+		break;
+	case 10:
+		UI::glPrint(debugLine10.c_str());
+		break;
+	case 11:
+		UI::glPrint(debugLine11.c_str());
+		break;
+	case 12:
+		UI::glPrint(debugLine12.c_str());
 		break;
 
 	default:

@@ -27,9 +27,17 @@ protected:
 	virtual void DrawDebugInfo();
 	void DrawAxisSystem();
 
+	bool loaded = false;
+
 	float debugStringXPos = -0.71F;
 	float debugStringYPos = 0.37F;
-	std::string debugLine1, debugLine2, debugLine3, debugLine4;
+
+	std::string debugLine1, debugLine2,
+		debugLine3, debugLine4,
+		debugLine5, debugLine6,
+		debugLine7, debugLine8,
+		debugLine9, debugLine10,
+		debugLine11, debugLine12;
 
 private:
 	void PrintLine(int);

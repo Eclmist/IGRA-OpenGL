@@ -1,5 +1,5 @@
 #pragma once
-#include "Collider.h"
+#include "BoxCollider.h"
 #include "Rigidbody.h"
 #include "Transform.h"
 
@@ -9,12 +9,12 @@ public:
 	//Only create pointers of this class! do not new or instantiate objects of this class.
 	RaycastHit();
 	//Origin is the start point of ray
-	RaycastHit(Collider &, vec3 hitPoint, vec3 origin);
+	RaycastHit(BoxCollider &, vec3 hitPoint, vec3 origin);
 	RaycastHit(RaycastHit &);
 
 	~RaycastHit();
 
-	Collider * collider;
+	BoxCollider * collider;
 	vec3 point;
 	vec3 origin;
 	float distance;
@@ -32,6 +32,6 @@ public:
 	Sides hitSide;
 
 private:
-	void CalculateHitSide(Collider & colliderHit, vec3 hitPoint);
+	void CalculateHitSide(BoxCollider & colliderHit, vec3 hitPoint);
 };
 

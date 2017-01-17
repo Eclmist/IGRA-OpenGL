@@ -1,6 +1,7 @@
 #pragma once
 #include <glm.hpp>
 
+class GameObject;
 using namespace glm;
 
 class Transform
@@ -29,6 +30,5 @@ private:
 	vec3 position;
 	vec3 rotation;
 	vec3 localScale;
-
 };
 

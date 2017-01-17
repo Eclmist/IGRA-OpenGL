@@ -1,5 +1,5 @@
 #pragma once
-#include "Collider.h"
+#include "BoxCollider.h"
 
 class Rigidbody
 {
@@ -7,12 +7,11 @@ public:
 	Rigidbody(GameObject &, bool useGravity = true);
 	~Rigidbody();
 
-	bool CheckCollision(Collider& other);
 	void Update();
 
 	GameObject & gameObject;
 
-	vec3 velocity = vec3(0);
+	vec3 velocity;
 
 private:
 	bool useGravity;

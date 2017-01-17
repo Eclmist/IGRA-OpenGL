@@ -4,7 +4,7 @@ float Level01Prefab::radius = 1;
 
 Level01Prefab::Level01Prefab(vec3 position)
 {
-	texture = new Texture("resources/map1.jpg");
+	texture = new Texture("resources/uv.jpg");
 	transform.setLocalPosition(position);
 	setupMeshInformation();
 }

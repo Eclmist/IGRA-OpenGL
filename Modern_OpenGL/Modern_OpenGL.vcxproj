@@ -118,7 +118,7 @@
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Awp.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Drawable.cpp" />
@@ -144,7 +144,7 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Collider.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Awp.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Drawable.h" />

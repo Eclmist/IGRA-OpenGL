@@ -1,6 +1,8 @@
 #include "Transform.h"
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
+#include "GameObject.h"
+#include "BoxCollider.h"
 
 Transform::Transform(vec3 position, vec3 rotation, vec3 localScale) :
 	position(position), rotation(rotation), localScale(localScale)

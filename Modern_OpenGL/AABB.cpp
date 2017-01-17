@@ -1,24 +1,19 @@
 ﻿#include "AABB.h"
 #include <glm.hpp>
+#include "GameObject.h"
 
-AABB::AABB() : AABB(glm::vec3(0, 0, 0))
+unsigned int AABB::uidCurrent = 0;
+
+AABB::AABB(GameObject & gameObject, glm::vec3 pos, glm::vec3 halfSize) : pos(pos), halfSize(halfSize), gameObject(gameObject)
 {
+	uid = uidCurrent++;
 }
 
-AABB::AABB(glm::vec3 pos) : AABB(pos, glm::vec3(0.5f, 0.5f, 0.5f))
-{
-}
-
-AABB::AABB(glm::vec3 pos, glm::vec3 halfSize)
-{
-	this->pos = pos;
-	this->halfSize = halfSize;
-}
-
-AABB::AABB(AABB & other)
+AABB::AABB(AABB & other) : gameObject(*new GameObject())
 {
 	pos = other.pos;
 	halfSize = other.halfSize;
+	uid = other.uid;
 }
 
 glm::vec3 AABB::Size() const
@@ -26,6 +21,7 @@ glm::vec3 AABB::Size() const
 	return halfSize * 2.0f;
 }
 
+// Deprecated: use Physics::Check
 bool AABB::CheckOverlap(const AABB& other) const
 {
 	//Optimization - Check if close enough for any collision to occur
@@ -36,6 +32,11 @@ bool AABB::CheckOverlap(const AABB& other) const
 		glm::abs(pos.z - other.pos.z) < halfSize.z + other.halfSize.z)
 		return true;
 	return false;
+}
+
+void AABB::UpdatePosition()
+{
+	pos = gameObject.transform.getLocalPosition();
 }
 
 glm::vec3& AABB::leftBottomBack()

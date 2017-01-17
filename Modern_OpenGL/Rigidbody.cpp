@@ -14,28 +14,33 @@ Rigidbody::~Rigidbody()
 	Physics::RemoveRigidbody(this);
 }
 
-bool Rigidbody::CheckCollision(Collider& other)
-{
-	if (gameObject.collider != nullptr) //check if collider component exist
-	{
-		if (other.uid == gameObject.collider->uid) return false;
 
-		return (other.aabb.CheckOverlap(gameObject.collider->aabb));
-	}
-
-	return false;
-}
-
+//TODO : FIX OVERLAP BUG
 void Rigidbody::Update()
 {
 	vec3 currentPosition = gameObject.transform.getLocalPosition();
 
 	if (useGravity)
 	{
-		velocity += Physics::Gravity;
+		velocity += Physics::Gravity * Time::deltaTime();
 	}
 
-	vec3 newPosition = currentPosition += velocity * Time::deltaTime(); //Important
+	vec3 newPosition = currentPosition + velocity * Time::deltaTime();
+
+	if (gameObject.collider != nullptr)
+	{
+		AABB temp = AABB(gameObject.collider->aabb) ;
+		temp.pos = newPosition;
+
+		if (Physics::CheckAABBCollision(temp))
+		{
+			velocity = vec3(0);
+			newPosition = currentPosition + velocity * Time::deltaTime();
+
+			RaycastHit hit;
+			//Physics::raycast(currentPosition)
+		}
+	}
 
 	gameObject.transform.setLocalPosition(newPosition);
 }

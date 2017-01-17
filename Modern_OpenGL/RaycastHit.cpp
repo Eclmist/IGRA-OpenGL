@@ -5,7 +5,7 @@ RaycastHit::RaycastHit()
 {
 }
 
-RaycastHit::RaycastHit(Collider & colliderHit, vec3 hitPoint,
+RaycastHit::RaycastHit(BoxCollider & colliderHit, vec3 hitPoint,
 	vec3 origin) : 
 	collider(&colliderHit), point (hitPoint), origin(origin)
 {
@@ -33,7 +33,7 @@ RaycastHit::~RaycastHit()
 
 #define LENIENCY 0.001F
 
-void RaycastHit::CalculateHitSide(Collider & colliderHit, vec3 hitPoint)
+void RaycastHit::CalculateHitSide(BoxCollider & colliderHit, vec3 hitPoint)
 {
 	vec3 target = colliderHit.aabb.pos;
 	vec3 halfsize = colliderHit.aabb.halfSize;

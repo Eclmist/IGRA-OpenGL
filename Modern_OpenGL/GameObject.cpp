@@ -1,17 +1,8 @@
 #include "GameObject.h"
-#include "Collider.h"
+#include "BoxCollider.h"
 #include "Rigidbody.h"
 
-GameObject::GameObject()
-{
-}
-
-GameObject::GameObject(Transform t) : GameObject()
-{
-	transform = t;
-}
-
-GameObject::GameObject(vec3 position) : GameObject()
+GameObject::GameObject(vec3 position)
 {
 	transform.setLocalPosition(position);
 }
@@ -25,7 +16,7 @@ GameObject::~GameObject()
 
 GameObject::GameObject(GameObject & other)
 {
-	collider = new Collider(*this);
+	collider = new BoxCollider(*this);
 	transform = other.transform;
 }
 
@@ -35,7 +26,7 @@ void GameObject::SetColliderActive(bool active)
 	{
 		if (collider == nullptr)
 		{
-			collider = new Collider(*this);
+			collider = new BoxCollider(*this);
 		}
 		collider->aabb.pos = transform.getLocalPosition();
 		collider->aabb.halfSize = transform.getLocalScale();
