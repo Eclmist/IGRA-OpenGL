@@ -2,7 +2,7 @@
 #include "Transform.h"
 
 class Collider;
-
+class Rigidbody;
 class GameObject
 {
 public:
@@ -14,9 +14,11 @@ public:
 
 	Transform transform;
 
-	Collider * collider;
+	void SetColliderActive(bool);
+	void SetRigidbodyActive(bool);
 
-	//will override any previouly set colliders
-	virtual void setCollider();
+	Collider * collider;
+	Rigidbody * rigidbody;
+
 };
 

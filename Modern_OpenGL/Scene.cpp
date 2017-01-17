@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "EngineCore.h"
-
+#include "Physics.h"
 Scene::Scene()
 {
 	graphicsHandler = new GraphicsHandler();
@@ -14,6 +14,9 @@ Scene::~Scene()
 
 void Scene::Unload()
 {
+	Physics::Reset();
+	GraphicsHandler::reset();
+
 	for (auto it = gameobjects.begin(); it != gameobjects.end(); ++it) {
 		delete *it;
 	}

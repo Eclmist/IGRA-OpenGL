@@ -5,10 +5,11 @@ std::list<Rigidbody*> Physics::rigidbodies;
 
 int Physics::uidCount;
 
+vec3 Physics::Gravity = vec3(0, -9.832, 0);
+
 Physics::Physics()
 {
 }
-
 
 Physics::~Physics()
 {
@@ -201,3 +202,23 @@ bool Physics::raycast2(RaycastHit& out, glm::vec3 v0, glm::vec3 dir, float maxDi
 
 	return false;
 }
+
+void Physics::PhysicsUpdate()
+{
+	for each (Rigidbody* rb in rigidbodies)
+	{
+		rb->Update();
+	}
+}
+
+void Physics::Reset()
+{
+	for (auto &it : colliders) {
+		delete it;
+	} 
+
+	colliders.clear();
+
+	for (auto &it : rigidbodies) delete it; rigidbodies.clear();
+}
+

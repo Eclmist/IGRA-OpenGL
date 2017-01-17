@@ -3,15 +3,18 @@
 
 class Rigidbody
 {
-	glm::vec3 velocity;
-
 public:
-	Rigidbody(GameObject &);
+	Rigidbody(GameObject &, bool useGravity = true);
 	~Rigidbody();
 
 	bool CheckCollision(Collider& other);
-	void Simulate();
+	void Update();
 
 	GameObject & gameObject;
+
+	vec3 velocity = vec3(0);
+
+private:
+	bool useGravity;
 };
 

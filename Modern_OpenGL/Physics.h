@@ -28,8 +28,17 @@ public:
 	static bool raycast2(RaycastHit& out, vec3 v0,
 		vec3 dir, float maxDistance = INFINITY);
 
+	static void PhysicsUpdate();
+	static void Reset();
+
+
 	static void physicsAssert()
 	{
 		assert("Larger than it is supposed to be", colliders.size() <= glm::pow(Chunk::chunkSize, 3));
 	};
+
+	static vec3 Gravity;
+
+private:
+
 };

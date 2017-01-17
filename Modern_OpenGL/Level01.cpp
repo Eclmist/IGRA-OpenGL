@@ -23,6 +23,8 @@ void Level01::Load()
 
 	gameobjects.push_back(new Cube(vec3(0, 0, 0)));
 	gameobjects[1]->transform.setLocalScale(vec3(0.01));
+	gameobjects[1]->SetColliderActive(true);
+	gameobjects[1]->SetRigidbodyActive(true);
 
 	gameobjects.push_back(new Level01Prefab(vec3(0, 0, 0)));
 
@@ -78,7 +80,6 @@ void Level01::Update()
 		debugLine2 = "wp_up: " + std::to_string(wp_up.x)
 			+ " wp_right: " + std::to_string(wp_right.x)
 			+ " wp_forward: " + std::to_string(wp_forward.x);
-
 	}
 
 	Draw();

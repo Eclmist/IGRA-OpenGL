@@ -1,14 +1,17 @@
 #include "Rigidbody.h"
 #include "GameObject.h"
+#include "Physics.h"
+#include "Time.h"
 
-
-Rigidbody::Rigidbody(GameObject & parent) : gameObject(parent)
+Rigidbody::Rigidbody(GameObject & parent, bool g) : gameObject(parent), useGravity(g)
 {
+	Physics::AddRigidBody(this);
 }
 
 
 Rigidbody::~Rigidbody()
 {
+	Physics::RemoveRigidbody(this);
 }
 
 bool Rigidbody::CheckCollision(Collider& other)
@@ -23,6 +26,16 @@ bool Rigidbody::CheckCollision(Collider& other)
 	return false;
 }
 
-void Rigidbody::Simulate()
+void Rigidbody::Update()
 {
+	vec3 currentPosition = gameObject.transform.getLocalPosition();
+
+	if (useGravity)
+	{
+		velocity += Physics::Gravity;
+	}
+
+	vec3 newPosition = currentPosition += velocity * Time::deltaTime(); //Important
+
+	gameObject.transform.setLocalPosition(newPosition);
 }

@@ -509,6 +509,7 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				{
 					SetCursorPos(screenWidth / 2, screenHeight / 2);
 					Time::update();
+					Physics::PhysicsUpdate();
 					Input::update();
 					DrawGLScene();					// Draw The Scene
 					SwapBuffers(hDC);				// Swap Buffers (Double Buffering)

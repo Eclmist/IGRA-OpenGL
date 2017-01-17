@@ -12,6 +12,8 @@ public:
 
 	static void burnPainting(Drawable *);
 
+	static void reset();
+
 private:
 	static std::vector<Drawable*> theAlmightyCollage;
 

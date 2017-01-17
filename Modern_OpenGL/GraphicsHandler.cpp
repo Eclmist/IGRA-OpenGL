@@ -28,3 +28,10 @@ void GraphicsHandler::burnPainting(Drawable * painting)
 		}
 	}
 }
+
+void GraphicsHandler::reset()
+{
+	while (!theAlmightyCollage.empty()) delete theAlmightyCollage.back(), 
+		theAlmightyCollage.pop_back();
+
+}

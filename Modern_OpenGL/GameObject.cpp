@@ -1,10 +1,9 @@
 #include "GameObject.h"
 #include "Collider.h"
-
+#include "Rigidbody.h"
 
 GameObject::GameObject()
 {
-	collider = new Collider(*this);
 }
 
 GameObject::GameObject(Transform t) : GameObject()
@@ -20,21 +19,53 @@ GameObject::GameObject(vec3 position) : GameObject()
 
 GameObject::~GameObject()
 {
-	delete collider;
+	SetColliderActive(false);
+	SetRigidbodyActive(false);
 }
 
 GameObject::GameObject(GameObject & other)
 {
 	collider = new Collider(*this);
 	transform = other.transform;
-	setCollider();
 }
 
-void GameObject::setCollider()
+void GameObject::SetColliderActive(bool active)
 {
-	if (collider == nullptr)
-		collider = new Collider(*this);
+	if (active)
+	{
+		if (collider == nullptr)
+		{
+			collider = new Collider(*this);
+		}
+		collider->aabb.pos = transform.getLocalPosition();
+		collider->aabb.halfSize = transform.getLocalScale();
 
-	collider->aabb.pos = transform.getLocalPosition();
-	collider->aabb.halfSize = transform.getLocalScale();
+	}
+	else
+	{
+		if (collider != nullptr)
+		{
+			delete collider;
+			collider = nullptr;
+		}
+	}
+}
+
+void GameObject::SetRigidbodyActive(bool active)
+{
+	if (active)
+	{
+		if (rigidbody == nullptr)
+		{
+			rigidbody = new Rigidbody(*this);
+		}
+	}
+	else
+	{
+		if (rigidbody != nullptr)
+		{
+			delete rigidbody;
+			rigidbody = nullptr;
+		}
+	}
 }
