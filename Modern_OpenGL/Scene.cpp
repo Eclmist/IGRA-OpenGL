@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "SceneManager.h"
+#include "EngineCore.h"
 
 Scene::Scene()
 {
@@ -29,7 +30,44 @@ void Scene::Draw()
 
 void Scene::DrawDebugInfo()
 {
+	glPushMatrix();
+	glLoadIdentity();
+	glTranslatef(0.0f, 0.0f, -1.0f);              // Move One Unit Into The Screen
+	glColor3f(1.0, 1.0, 1.0);
+	// Position The Text On The Screen
+
+
+	for (int i = 0; i < 4; i++)
+	{
+		glRasterPos2f(debugStringXPos, debugStringYPos - i * 0.02F);
+		PrintLine(i + 1);
+	}
+	
+	glPopMatrix();
+
 	DrawAxisSystem();
+}
+
+void Scene::PrintLine(int id)
+{
+	switch (id)
+	{
+	case 1:
+		UI::glPrint(debugLine1.c_str());
+		break;
+	case 2:
+		UI::glPrint(debugLine2.c_str());
+		break;
+	case 3:
+		UI::glPrint(debugLine3.c_str());
+		break;
+	case 4:
+		UI::glPrint(debugLine4.c_str());
+		break;
+
+	default:
+		break;
+	}
 }
 
 void Scene::DrawAxisSystem()

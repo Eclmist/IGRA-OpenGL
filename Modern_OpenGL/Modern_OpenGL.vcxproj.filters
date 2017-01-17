@@ -96,6 +96,9 @@
     <ClCompile Include="Level01Prefab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.h">
@@ -168,6 +171,9 @@
       <Filter>Header Files\GameObjectHeaders</Filter>
     </ClInclude>
     <ClInclude Include="Level01Prefab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

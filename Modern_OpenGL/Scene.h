@@ -27,5 +27,11 @@ protected:
 	virtual void DrawDebugInfo();
 	void DrawAxisSystem();
 
+	float debugStringXPos = -0.71F;
+	float debugStringYPos = 0.37F;
+	std::string debugLine1, debugLine2, debugLine3, debugLine4;
+
+private:
+	void PrintLine(int);
 };
 

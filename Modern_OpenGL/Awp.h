@@ -14,6 +14,7 @@ public:
 	~Awp();
 
 	static float radius;
+
 protected:
 
 	void setupMeshInformation();

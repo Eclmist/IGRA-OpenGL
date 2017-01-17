@@ -26,9 +26,9 @@ bool	fullscreen = TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
 
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 
-#define SCREEN_WIDTH 1366
-#define SCREEN_HEIGHT 768
-#define WINDOW_TITLE "CS:WENT"
+#define WINDOWED_WIDTH 1366
+#define WINDOWED_HEIGHT 768
+#define WINDOW_TITLE "CS:COME"
 #define DEBUG_CONSOLE TRUE
 /* GLOBALS */
 SceneManager * sceneManager;
@@ -59,9 +59,16 @@ int InitEngine(HWND & hWnd)
 {
 	ShowCursor(false);
 
+	// Init Time functions
 	new Time();
+
+	// Init Input functions
 	Input::initializeInput(hWnd);
 
+	// Init UI handlers
+	UI::BuildFont();
+
+	// Init Scene functions
 	sceneManager = new SceneManager();
 	sceneManager->LoadScene("Level01");
 
@@ -85,6 +92,7 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	glEnable(GL_CULL_FACE);
 	glFrontFace(GL_CCW);
 
+
 	return TRUE;										// Initialization Went OK
 }
 
@@ -93,8 +101,6 @@ int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
 	glLoadIdentity();									// Reset The Current Modelview Matrix
 
-	
-	
 	sceneManager->GetActiveScene()->Update();
 
 	return TRUE;										// Everything Went OK
@@ -141,6 +147,8 @@ GLvoid KillGLWindow(GLvoid)								// Properly Kill The Window
 		MessageBox(NULL, "Could Not Unregister Class.", "SHUTDOWN ERROR", MB_OK | MB_ICONINFORMATION);
 		hInstance = NULL;									// Set hInstance To NULL
 	}
+
+	UI::KillFont();
 }
 
 #pragma region WindowsInitialization
@@ -458,9 +466,18 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 		fullscreen = FALSE;							// Windowed Mode
 	}
 
+	int screenWidth = WINDOWED_WIDTH;
+	int screenHeight = WINDOWED_HEIGHT;
+
+	if (fullscreen)
+	{
+		screenWidth = GetSystemMetrics(SM_CXSCREEN);
+		screenHeight = GetSystemMetrics(SM_CYSCREEN);
+	}
+
 
 	// Create Our OpenGL Window
-	if (!CreateGLWindow(WINDOW_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, 32, fullscreen))
+	if (!CreateGLWindow(WINDOW_TITLE, screenWidth, screenHeight, 32, fullscreen))
 	{
 		return 0;									// Quit If Window Was Not Created
 	}
@@ -490,7 +507,7 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				}
 				else								// Not Time To Quit, Update Screen
 				{
-					SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+					SetCursorPos(screenWidth / 2, screenHeight / 2);
 					Time::update();
 					Input::update();
 					DrawGLScene();					// Draw The Scene
@@ -504,7 +521,14 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				KillGLWindow();						// Kill Our Current Window
 				fullscreen = !fullscreen;				// Toggle Fullscreen / Windowed Mode
 														// Recreate Our OpenGL Window
-				if (!CreateGLWindow(WINDOW_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, 32, fullscreen))
+
+				if (fullscreen)
+				{
+					screenWidth = GetSystemMetrics(SM_CXSCREEN);
+					screenHeight = GetSystemMetrics(SM_CYSCREEN);
+				}
+
+				if (!CreateGLWindow(WINDOW_TITLE, screenWidth, screenHeight, 32, fullscreen))
 				{
 					return 0;						// Quit If Window Was Not Created
 				}
