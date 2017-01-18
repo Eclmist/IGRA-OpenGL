@@ -23,8 +23,11 @@ void Input::initializeInput(HWND & hWnd)
 	RegisterRawInputDevices(Rid, 1, sizeof(Rid[0]));
 }
 
-void Input::updateKeyStates(bool currentKeys[256])
+void Input::update(bool currentKeys[256])
 {
+	deltaMousePos = newDeltaMousePos;
+	newDeltaMousePos.x = 0;
+	newDeltaMousePos.y = 0;
 	for (int i = 0; i < 256; i++)
 	{
 		lastKeys[i] = keys[i];
@@ -34,13 +37,6 @@ void Input::updateKeyStates(bool currentKeys[256])
 	{
 		keys[i] = currentKeys[i];
 	}
-}
-
-void Input::update()
-{
-	deltaMousePos = newDeltaMousePos;
-	newDeltaMousePos.x = 0;
-	newDeltaMousePos.y = 0;
 }
 
 bool Input::getKey(char key)

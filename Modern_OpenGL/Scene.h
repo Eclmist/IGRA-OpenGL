@@ -28,6 +28,9 @@ protected:
 	virtual void DrawDebugInfo();
 	void DrawAxisSystem();
 
+	virtual void SetupLight();
+	virtual void DisableLight();
+
 	bool loaded = false;
 
 	float debugStringXPos = 8;

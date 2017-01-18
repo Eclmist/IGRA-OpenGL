@@ -19,5 +19,6 @@ private:
 	Skybox * skybox;
 	Player * player;
 
+
 };
 

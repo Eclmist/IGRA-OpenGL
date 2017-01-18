@@ -17,8 +17,7 @@ private:
 public:
 	static void initializeInput(HWND & hWnd);
 
-	static void updateKeyStates(bool currentKeys[256]);
-	static void update();
+	static void update(bool currentKeys[256]);
 
 	static bool getKey(char key);
 	static bool getKeyDown(char key);

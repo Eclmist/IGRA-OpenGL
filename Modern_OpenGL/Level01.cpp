@@ -18,6 +18,8 @@ Level01::~Level01()
 
 void Level01::Load()
 {
+	SetupLight();
+
 	skybox = new Skybox();
 	player = new Player(vec3(5, 100, 5));
 
@@ -60,6 +62,7 @@ void Level01::Update()
 	
 	skybox->Update(player->transform.getLocalPosition());
 	player->Update();
+	SetupLight();
 
 	//vec3 awpTargetPos = camera.pos - camera.right * wp_right +
 	//	camera.dir * wp_forward - (camera.up * wp_up);
@@ -88,11 +91,11 @@ void Level01::Update()
 		if (Input::getKey('G')) debugStringYPos -= 0.01F;
 		if (Input::getKey('H')) debugStringXPos += 0.01F;
 
-
 		if (Input::getKey('M')) gameobjects[0]->transform.setLocalPosition(vec3(0,100,0));
 
-		if (Input::getKey('V')) player->camera.fov -= 0.01F;
-		if (Input::getKey('B')) player->camera.fov += 0.01F;
+		if (Input::getKey('V')) SetupLight();
+		if (Input::getKey('B')) DisableLight();
+
 
 		debugLine1 = "x: " + std::to_string(player->transform.getLocalPosition().x)
 			+ " y: " + std::to_string(player->transform.getLocalPosition().y)

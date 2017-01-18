@@ -128,3 +128,22 @@ void Scene::DrawAxisSystem()
 
 	glEnd();
 }
+
+void Scene::SetupLight()
+{
+	glShadeModel(GL_SMOOTH);
+	GLfloat LightAmbient[] = { 0.21, 0.112, 0.05, 1 };
+	GLfloat LightDiffuse[] = { 1, 1, 1, 1 };
+	GLfloat LightSpecular[] = { 1, 0, 0, 1 };
+	GLfloat LightPosition[] = { 5, 30, -2, 0 }; 
+	glLightfv(GL_LIGHT0, GL_AMBIENT, LightAmbient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, LightDiffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, LightSpecular);
+	glLightfv(GL_LIGHT0, GL_POSITION, LightPosition);
+	glEnable(GL_LIGHT0);
+}
+
+void Scene::DisableLight()
+{
+	glDisable(GL_LIGHT0);
+}

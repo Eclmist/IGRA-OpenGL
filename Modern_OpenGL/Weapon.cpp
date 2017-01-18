@@ -32,7 +32,9 @@ void Weapon::draw()
 	if (texture != nullptr)
 		texture->Bind();
 
+	glEnable(GL_LIGHTING);
 	glEnable(GL_TEXTURE_2D);
 	mesh->Draw(transform);
 	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_LIGHTING);
 }

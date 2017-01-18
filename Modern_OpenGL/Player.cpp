@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "Rigidbody.h"
 #include "Time.h"
-
 Player::Player(vec3 pos)
 {
 	transform.setLocalPosition(pos);
@@ -38,17 +37,25 @@ void Player::Move()
 {
 	//vec3
 
-	if (Input::getKey(' ')) rigidbody->AddForce(vec3(0,1,0) * vec3(50) * Time::deltaTime());
-
+	if (Input::getKeyDown(' '))
+	{
+		rigidbody->AddForce(vec3(0, 1, 0) * vec3(1200) * Time::deltaTime());
+		std::cout << "Jumped" << std::endl;
+	}
 	vec3 horizontalVelocity;
 
-	if (Input::getKey('W')) horizontalVelocity += (camera.dir * vec3(MOVESPEED) * Time::deltaTime());
-	if (Input::getKey('A')) horizontalVelocity += (camera.right * vec3(MOVESPEED) * Time::deltaTime());
-	if (Input::getKey('S')) horizontalVelocity += (-camera.dir * vec3(MOVESPEED) * Time::deltaTime());
-	if (Input::getKey('D')) horizontalVelocity += (-camera.right * vec3(MOVESPEED) * Time::deltaTime());
+	if (Input::getKey('W')) horizontalVelocity += camera.dir;
+	if (Input::getKey('A')) horizontalVelocity += camera.right;
+	if (Input::getKey('S')) horizontalVelocity += -camera.dir;
+	if (Input::getKey('D')) horizontalVelocity += -camera.right;
 
 	horizontalVelocity.y = 0;
-
+	
+	if (glm::length(horizontalVelocity) > 0)
+		horizontalVelocity = glm::normalize(horizontalVelocity);
+	
+	horizontalVelocity *= vec3(MOVESPEED) * Time::deltaTime();
+ 
 	horizontalVelocity += transform.getLocalPosition();
 	transform.setLocalPosition(horizontalVelocity);
 }

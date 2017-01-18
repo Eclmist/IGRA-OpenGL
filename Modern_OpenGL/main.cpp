@@ -372,14 +372,12 @@ LRESULT CALLBACK WndProc(HWND	hWnd,			// Handle For This Window
 		case WM_KEYDOWN:							// Is A Key Being Held Down?
 		{
 			keys[wParam] = TRUE;					// If So, Mark It As TRUE
-			Input::updateKeyStates(keys);
 			return 0;								// Jump Back
 		}
 
 		case WM_KEYUP:								// Has A Key Been Released?
 		{
 			keys[wParam] = FALSE;					// If So, Mark It As FALSE
-			Input::updateKeyStates(keys);
 			return 0;								// Jump Back
 		}
 
@@ -511,7 +509,7 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 					SetCursorPos(screenWidth / 2, screenHeight / 2);
 					Time::update();
 					Physics::PhysicsUpdate();
-					Input::update();
+					Input::update(keys);
 					DrawGLScene();					// Draw The Scene
 					SwapBuffers(hDC);				// Swap Buffers (Double Buffering)
 				}
