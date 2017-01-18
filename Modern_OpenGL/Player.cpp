@@ -2,6 +2,12 @@
 #include "Input.h"
 #include "Rigidbody.h"
 #include "Time.h"
+#include <gtc/matrix_transform.inl>
+
+extern int screenWidth;
+extern int screenHeight;
+
+
 Player::Player(vec3 pos)
 {
 	transform.setLocalPosition(pos);
@@ -28,6 +34,44 @@ void Player::Update()
 		camera.right * wp_right;
 	weapon.transform.setLocalPosition(weaponTargetPos);
 	weapon.transform.setRotation(vec3(-camera.pitch, -camera.yaw + 90, 0));
+
+	// Draw crosshair
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+
+	glm::mat4 orth = glm::ortho((float)-screenWidth, (float)screenWidth, (float)screenHeight, (float)-screenHeight);
+	glMultMatrixf(&(orth[0][0]));
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	glBegin(GL_LINES);
+
+	glColor3f(0, 1, 1);
+
+	//Left
+	glVertex3f(-18, 0, 0);
+	glVertex3f(-5, 0, 0);
+
+	//Right
+	glVertex3f(18, 0, 0);
+	glVertex3f(5, 0, 0);
+
+	//Top
+	glVertex3f(0, 18, 0);
+	glVertex3f(0, 5, 0);
+
+	//Btm
+	glVertex3f(0, -5, 0);
+	glVertex3f(0, -18, 0);
+
+	glEnd();
+	glPopMatrix();
+
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
 
 }
 
