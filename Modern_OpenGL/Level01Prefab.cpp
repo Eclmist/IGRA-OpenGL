@@ -21,7 +21,7 @@ Level01Prefab::~Level01Prefab()
 
 void Level01Prefab::setupMeshInformation()
 {
-	SamLoader::LoadModel("resources/model/orangemap.obj", vertexArr, numVertices);
+	SamLoader::LoadModel("resources/model/wall.obj", vertexArr, numVertices);
 	mesh = new Mesh(vertexArr, numVertices, TRIANGLES);
 
 }

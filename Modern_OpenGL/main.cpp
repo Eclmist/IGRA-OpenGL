@@ -31,6 +31,8 @@ LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 #define WINDOW_TITLE "CS:COME"
 #define DEBUG_CONSOLE TRUE
 /* GLOBALS */
+int screenWidth = 1366, screenHeight = 768;
+
 SceneManager * sceneManager;
 
 
@@ -46,8 +48,6 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 
 	glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
 	glLoadIdentity();									// Reset The Projection Matrix
-
-	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 1, 10000);
 
 														// Calculate The Aspect Ratio Of The Window
 	glMatrixMode(GL_MODELVIEW);							// Select The Modelview Matrix
@@ -466,15 +466,16 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 		fullscreen = FALSE;							// Windowed Mode
 	}
 
-	int screenWidth = WINDOWED_WIDTH;
-	int screenHeight = WINDOWED_HEIGHT;
-
 	if (fullscreen)
 	{
 		screenWidth = GetSystemMetrics(SM_CXSCREEN);
 		screenHeight = GetSystemMetrics(SM_CYSCREEN);
 	}
-
+	else
+	{
+		screenWidth = WINDOWED_WIDTH;
+		screenHeight = WINDOWED_HEIGHT;
+	}
 
 	// Create Our OpenGL Window
 	if (!CreateGLWindow(WINDOW_TITLE, screenWidth, screenHeight, 32, fullscreen))
@@ -527,6 +528,11 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				{
 					screenWidth = GetSystemMetrics(SM_CXSCREEN);
 					screenHeight = GetSystemMetrics(SM_CYSCREEN);
+				}
+				else
+				{
+					screenWidth = WINDOWED_WIDTH;
+					screenHeight = WINDOWED_HEIGHT;
 				}
 
 				if (!CreateGLWindow(WINDOW_TITLE, screenWidth, screenHeight, 32, fullscreen))

@@ -61,7 +61,6 @@ void Mesh::Draw(Transform transform)
 		glNormal3f(vertices[i].normal.x, vertices[i].normal.y, vertices[i].normal.z);
 		glTexCoord2f(vertices[i].texCoord.x, vertices[i].texCoord.y);
 		glVertex3f(vertices[i].position.x, vertices[i].position.y, vertices[i].position.z);
-
 	}
 
 	glEnd();

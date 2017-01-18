@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "Skybox.h"
+#include "Player.h"
 
 class Level01 :	public Scene
 {
@@ -15,8 +16,8 @@ public:
 private:
 	virtual void Draw();
 
-	Camera camera = Camera(45, 16 / 9, 0.001, 1000);
 	Skybox * skybox;
+	Player * player;
 
 };
 

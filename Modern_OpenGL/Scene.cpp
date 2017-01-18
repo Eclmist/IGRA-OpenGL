@@ -2,6 +2,11 @@
 #include "SceneManager.h"
 #include "EngineCore.h"
 #include "Physics.h"
+#include <gtc/matrix_transform.inl>
+#include <glm.hpp>
+
+using namespace glm;
+
 Scene::Scene()
 {
 	graphicsHandler = new GraphicsHandler();
@@ -33,20 +38,29 @@ void Scene::Draw()
 
 void Scene::DrawDebugInfo()
 {
+	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, -1.0f);              // Move One Unit Into The Screen
-	glColor3f(1.0, 1.0, 1.0);
-	// Position The Text On The Screen
+	glm::mat4 orth = glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f );
+	glMultMatrixf(&(orth[0][0]));
 
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	glColor3f(1.0f, 1.0f, 1.0f);
 
 	for (int i = 0; i < 12; i++)
 	{
-		glRasterPos2f(debugStringXPos, debugStringYPos - i * 0.02F);
+		glRasterPos2f(debugStringXPos, (i+1) * 18);
 		PrintLine(i + 1);
 	}
 	
 	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+
+
 
 	DrawAxisSystem();
 }

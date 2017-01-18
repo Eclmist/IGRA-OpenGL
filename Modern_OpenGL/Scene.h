@@ -3,6 +3,7 @@
 #include "GraphicsHandler.h"
 #include "GameObject.h"
 
+extern int screenWidth, screenHeight;
 
 class Scene
 {
@@ -29,8 +30,8 @@ protected:
 
 	bool loaded = false;
 
-	float debugStringXPos = -0.71F;
-	float debugStringYPos = 0.37F;
+	float debugStringXPos = 8;
+	float debugStringYPos = 0;
 
 	std::string debugLine1, debugLine2,
 		debugLine3, debugLine4,

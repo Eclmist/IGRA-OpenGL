@@ -8,6 +8,9 @@ public:
 	~Rigidbody();
 
 	void Update();
+	void AddForce(vec3);
+	void ClampHorizontalVelocity(float max);
+	void ClampVerticalVelocity(float max);
 
 	GameObject & gameObject;
 
@@ -15,5 +18,10 @@ public:
 
 private:
 	bool useGravity;
+
+	vec3 perFrameForce;
+
+	float maxHorizontalVel = INFINITY;
+	float maxVerticalVel = INFINITY;
 };
 

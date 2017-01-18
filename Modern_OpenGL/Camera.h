@@ -12,12 +12,12 @@ public:
 
 	static Camera* Instance;
 
-	void UpdateCamera();
+	void UpdateCamera(vec3 position);
 	void PitchCamera(float deltaPitch);
 	void YawCamera(float deltaYaw);
 	mat4 ViewProjectionMatrix();
 
-	void OnScreenResize(float newAspectRatio);
+	void UpdateProjectionMatrix();
 
 	vec3 pos;
 	vec3 dir;
@@ -31,7 +31,7 @@ public:
 	float32 pitch = 0;
 	float32 yaw = 0;
 
-	float nearClip, farClip;
+	float nearClip, farClip, aspect;
 
 	float fov;
 

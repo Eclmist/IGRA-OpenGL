@@ -119,7 +119,7 @@
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
-    <ClCompile Include="Awp.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -130,6 +130,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RaycastHit.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SamLoader.cpp" />
@@ -145,7 +146,7 @@
     <ClInclude Include="AABB.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="BoxCollider.h" />
-    <ClInclude Include="Awp.h" />
+    <ClInclude Include="Weapon.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="GameObject.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Level01Prefab.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="RaycastHit.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SamLoader.h" />

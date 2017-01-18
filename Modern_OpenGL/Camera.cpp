@@ -8,8 +8,6 @@
 #include <gl/GLU.h>
 #include "EngineCore.h"
 
-#define DEBUGCAMERA false
-
 using namespace glm;
 using namespace std;
 
@@ -32,13 +30,14 @@ Camera::Camera()
 }
 
 Camera::Camera(float fov, float aspectRatio, float nearClipping, float farClipping)
-	: fov(fov), nearClip(nearClipping), farClip(farClipping)
+	: fov(fov), nearClip(nearClipping), farClip(farClipping), aspect(aspectRatio)
 {
 	Instance = this;
 
 	pos = vec3(0, 0, 1);
 	dir = normalize(vec3(0, 0, -1)); //does not work
 	yaw = -90;
+
 
 	proj = perspective(fov, aspectRatio, nearClipping, farClipping);
 	view = lookAt(pos, pos + dir, up);
@@ -48,33 +47,32 @@ Camera::~Camera()
 {
 }
 
-#define movespeed 10.0f
-#define mouseSensitivity 40.0f
+#define movespeed 4.0f
+#define mouseSensitivity 20.0F
 
-void Camera::UpdateCamera()
+
+void Camera::UpdateCamera(vec3 position)
 {
+	pos = position;
+
 	view = lookAt(pos, pos + dir, up);
-
-	if (DEBUGCAMERA)
-	{
-		cout << "Camera:   ";
-		cout << pos.x << "," << pos.y << "," << pos.z << "   ";
-		cout << dir.x << "," << dir.y << "," << dir.z << endl;
-	}
-
-	if (Input::getKey('W')) pos += dir * Time::deltaTime() * movespeed;
-	if (Input::getKey('S')) pos -= dir * Time::deltaTime() * movespeed;
-	if (Input::getKey('A')) pos += right * Time::deltaTime() * movespeed;
-	if (Input::getKey('D')) pos -= right * Time::deltaTime() * movespeed;
-
+	UpdateProjectionMatrix();
 
 	PitchCamera(-Input::getMouseDelta().y * Time::deltaTime() * mouseSensitivity);
 	YawCamera(Input::getMouseDelta().x * Time::deltaTime() * mouseSensitivity);
 
-	gluLookAt(pos.x, pos.y, pos.z,
-		pos.x + dir.x, pos.y + dir.y, pos.z + dir.z,
-		up.x, up.y, up.z
-	);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();									
+	glMultMatrixf(&proj[0][0]);
+
+	glMatrixMode(GL_MODELVIEW);
+	glMultMatrixf(&view[0][0]);
+
+
+	//gluLookAt(pos.x, pos.y, pos.z,
+	//	pos.x + dir.x, pos.y + dir.y, pos.z + dir.z,
+	//	up.x, up.y, up.z
+	//);
 }
 
 void Camera::PitchCamera(float deltaPitch)
@@ -96,7 +94,8 @@ mat4 Camera::ViewProjectionMatrix()
 	return proj * view;
 }
 
-void Camera::OnScreenResize(float newAspectRatio)
+void Camera::UpdateProjectionMatrix()
 {
-	proj = perspective(fov, newAspectRatio, nearClip, farClip);
+	aspect = (float)screenWidth / (float)screenHeight;
+	proj = perspective(fov, aspect, nearClip, farClip);
 }
