@@ -102,6 +102,9 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>Header Files\GameObjectHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -58,8 +58,8 @@ void Camera::UpdateCamera(vec3 position)
 	view = lookAt(pos, pos + dir, up);
 	UpdateProjectionMatrix();
 
-	PitchCamera(Time::deltaTime() * mouseSensitivity);
-	YawCamera(Time::deltaTime() * mouseSensitivity);
+	PitchCamera(-Input::getMouseDelta().y * Time::deltaTime() * mouseSensitivity);
+	YawCamera(Input::getMouseDelta().x * Time::deltaTime() * mouseSensitivity);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();									

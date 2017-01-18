@@ -3,6 +3,7 @@
 #include "EngineCore.h"
 #include "Cube.h"
 #include "Level01Prefab.h"
+#include "Enemy.h"
 
 Level01::Level01()
 {
@@ -47,6 +48,10 @@ void Level01::Load()
 	gameobjects.push_back(new Weapon(vec3(0, 0, 0)));
 	gameobjects[7]->transform.setLocalScale(vec3(0.2775));
 
+	gameobjects.push_back(new Enemy(vec3(1, 1, 1)));
+	gameobjects[8]->SetColliderActive(true);
+	gameobjects[8]->SetRigidbodyActive(true);
+
 	loaded = true;
 }
 
@@ -68,7 +73,6 @@ void Level01::Update()
 
 	if (Input::getKey('P'))
 		sceneDebug = true;
-
 
 	if (sceneDebug)
 	{

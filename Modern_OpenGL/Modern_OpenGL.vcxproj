@@ -119,6 +119,7 @@
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Drawable.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="AABB.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Drawable.h" />
