@@ -256,6 +256,7 @@ void Physics::PhysicsUpdate()
 
 void Physics::Reset()
 {
+
 	for (auto &it : colliders) {
 		delete it;
 	} 

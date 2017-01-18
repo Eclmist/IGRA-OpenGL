@@ -48,7 +48,7 @@ Camera::~Camera()
 }
 
 #define movespeed 4.0f
-#define mouseSensitivity 20.0F
+#define mouseSensitivity 10.0F
 
 
 void Camera::UpdateCamera(vec3 position)
@@ -58,8 +58,8 @@ void Camera::UpdateCamera(vec3 position)
 	view = lookAt(pos, pos + dir, up);
 	UpdateProjectionMatrix();
 
-	PitchCamera(-Input::getMouseDelta().y * Time::deltaTime() * mouseSensitivity);
-	YawCamera(Input::getMouseDelta().x * Time::deltaTime() * mouseSensitivity);
+	PitchCamera(Time::deltaTime() * mouseSensitivity);
+	YawCamera(Time::deltaTime() * mouseSensitivity);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();									
