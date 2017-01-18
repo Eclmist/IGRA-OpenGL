@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Skybox.h"
 #include "Player.h"
+#include "Enemy.h"
 
 class Level01 :	public Scene
 {

@@ -32,23 +32,20 @@ void Level01::Load()
 	gameobjects[1]->transform.setLocalScale(vec3(50, 1, 50));
 	gameobjects[1]->SetColliderActive(true);
 
-	gameobjects.push_back(new Cube(vec3(0.5f, 93, 0)));
-	gameobjects[2]->SetColliderActive(true);
-	gameobjects[2]->SetRigidbodyActive(true);
-	gameobjects.push_back(new Cube(vec3(0, 104, 0.5f)));
-	gameobjects[3]->SetColliderActive(true);
-	gameobjects[3]->SetRigidbodyActive(true);
-	gameobjects.push_back(new Cube(vec3(0.5f, 109, 0.5f)));
-	gameobjects[4]->SetColliderActive(true);
-	gameobjects[4]->SetRigidbodyActive(true);
-	gameobjects.push_back(new Cube(vec3(-0.5f, 107, 0)));
-	gameobjects[5]->SetColliderActive(true);
-	gameobjects[5]->SetRigidbodyActive(true);
+	//gameobjects.push_back(new Cube(vec3(0.5f, 93, 0)));
+	//gameobjects[2]->SetColliderActive(true);
+	//gameobjects[2]->SetRigidbodyActive(true);
+	//gameobjects.push_back(new Cube(vec3(0, 104, 0.5f)));
+	//gameobjects[3]->SetColliderActive(true);
+	//gameobjects[3]->SetRigidbodyActive(true);
+	//gameobjects.push_back(new Cube(vec3(0.5f, 109, 0.5f)));
+	//gameobjects[4]->SetColliderActive(true);
+	//gameobjects[4]->SetRigidbodyActive(true);
+	//gameobjects.push_back(new Cube(vec3(-0.5f, 107, 0)));
+	//gameobjects[5]->SetColliderActive(true);
+	//gameobjects[5]->SetRigidbodyActive(true);
 
 	gameobjects.push_back(new Level01Prefab(vec3(0, 0, 0)));
-
-	gameobjects.push_back(new Weapon(vec3(0, 0, 0)));
-	gameobjects[7]->transform.setLocalScale(vec3(0.2775));
 
 	enemyobjects.push_back(new Enemy(vec3(0, 0, 0)));
 
@@ -75,11 +72,7 @@ void Level01::Update()
 
 
 	if (Input::getKey('P'))
-		sceneDebug = true;
-
-	if (Input::getKey('F')) {
-		enemyobjects[0]->Die();
-	}
+		sceneDebug = !sceneDebug;
 
 	if (sceneDebug)
 	{
@@ -90,15 +83,13 @@ void Level01::Update()
 		if (Input::getKey('U')) player->wp_forward += vec3(0.002F);
 		if (Input::getKey('O')) player->wp_forward -= vec3(0.002F);
 
-		if (Input::getKey('T')) debugStringYPos += 0.01F;
-		if (Input::getKey('F')) debugStringXPos -= 0.01F;
-		if (Input::getKey('G')) debugStringYPos -= 0.01F;
-		if (Input::getKey('H')) debugStringXPos += 0.01F;
-
 		if (Input::getKey('M')) gameobjects[0]->transform.setLocalPosition(vec3(0,100,0));
 
 		if (Input::getKey('V')) SetupLight();
 		if (Input::getKey('B')) DisableLight();
+
+
+		if (Input::getKey('F'))	enemyobjects[0]->Die();
 
 
 		debugLine1 = "x: " + std::to_string(player->transform.getLocalPosition().x)

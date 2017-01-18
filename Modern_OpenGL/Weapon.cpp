@@ -4,7 +4,6 @@ float Weapon::radius = 1;
 
 Weapon::Weapon(vec3 position)
 {
-	texture = new Texture("resources/Awp.bmp");
 	transform.setLocalPosition(position);
 	setupMeshInformation();
 }
@@ -21,7 +20,7 @@ Weapon::~Weapon()
 
 void Weapon::setupMeshInformation()
 {
-	SamLoader::LoadModel("resources/model/awp.obj", vertexArr, numVertices);
+	SamLoader::LoadModel("resources/model/FixedM4.obj", vertexArr, numVertices);
 
 	mesh = new Mesh(vertexArr, numVertices, TRIANGLES);
 
@@ -33,8 +32,7 @@ void Weapon::draw()
 		texture->Bind();
 
 	glEnable(GL_LIGHTING);
-	glEnable(GL_TEXTURE_2D);
+	glColor3f(0.1, 0.1, 0.1);
 	mesh->Draw(transform);
-	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
 }

@@ -1,6 +1,5 @@
 #include "Enemy.h"
-
-
+#include "BoxCollider.h"
 
 Enemy::Enemy(vec3 position)
 {
@@ -9,6 +8,8 @@ Enemy::Enemy(vec3 position)
 	setupMeshInformation();
 
 	SetColliderActive(true);
+	collider->aabb.halfSize = vec3(0.025, 2, 0.33);
+	// TODO : make aabb pos adjustable
 }
 
 

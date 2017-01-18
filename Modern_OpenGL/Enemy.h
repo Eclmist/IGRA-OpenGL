@@ -23,7 +23,7 @@ protected:
 	void setupMeshInformation();
 	void draw() override;
 
-	int moveSpeed = 1;
+	int moveSpeed = 0;
 
 	bool dead = false;
 

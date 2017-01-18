@@ -13,6 +13,26 @@ Transform::~Transform()
 {
 }
 
+void Transform::setParent(Transform & parent)
+{
+	parent = parent;
+}
+
+vec3 Transform::getPosition()
+{
+	vec3 cumulativeParentPosition = position;
+	
+	Transform * curr = this;
+
+	while (curr->parent != nullptr)
+	{
+		cumulativeParentPosition += curr->parent->getLocalPosition();
+		curr = curr->parent;
+	}
+
+	return cumulativeParentPosition;
+}
+
 void Transform::setLocalPosition(vec3 newPos)
 {
 	position = newPos;

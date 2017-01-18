@@ -3,6 +3,10 @@
 #include "Rigidbody.h"
 #include "Time.h"
 #include <gtc/matrix_transform.inl>
+#include "RaycastHit.h"
+#include "Physics.h"
+#include "Enemy.h"
+#include "BoxCollider.h"
 
 extern int screenWidth;
 extern int screenHeight;
@@ -14,7 +18,6 @@ Player::Player(vec3 pos)
 	transform.setLocalScale(vec3(1, 2, 1));
 	SetColliderActive(true);
 	SetRigidbodyActive(true);
-	weapon.transform.setLocalScale(vec3(0.2775F));
 }
 
 
@@ -25,15 +28,36 @@ Player::~Player()
 void Player::Update()
 {
 
+	camera.UpdateCamera(transform.getLocalPosition() + vec3(0, 0.65f, 0));
+
+	Shoot();
 	Move();
 
-	camera.UpdateCamera(transform.getLocalPosition() + vec3(0, 0.65f, 0));
-	vec3 weaponTargetPos = camera.pos +
-		camera.dir * wp_forward -
-		camera.up * wp_up -
-		camera.right * wp_right;
-	weapon.transform.setLocalPosition(weaponTargetPos);
-	weapon.transform.setRotation(vec3(-camera.pitch, -camera.yaw + 90, 0));
+	vec3 weaponTargetPos;
+	if (!aimingDownSights) {
+		weaponTargetPos = camera.pos +
+			camera.dir * wp_forward -
+			camera.up * wp_up -
+			camera.right * wp_right;
+
+		camera.fov = 45;
+	}
+	else
+	{
+		weaponTargetPos = camera.pos +
+			camera.dir * wp_forward_sights -
+			camera.up * wp_up_sights -
+			camera.right * wp_right_sights;
+
+		camera.fov = 44.5;
+	}
+
+	if (Input::getKeyDown('Q')) aimingDownSights = !aimingDownSights;
+
+	vec3 lerpVector = weaponTargetPos - weapon.transform.getLocalPosition();
+
+	weapon.transform.setLocalPosition(weapon.transform.getLocalPosition() + lerpVector * 1.0f);
+	weapon.transform.setRotation(vec3(camera.pitch, -camera.yaw - 90, 0));
 
 	// Draw crosshair
 	glMatrixMode(GL_PROJECTION);
@@ -99,7 +123,28 @@ void Player::Move()
 		horizontalVelocity = glm::normalize(horizontalVelocity);
 	
 	horizontalVelocity *= vec3(MOVESPEED) * Time::deltaTime();
- 
+
 	horizontalVelocity += transform.getLocalPosition();
 	transform.setLocalPosition(horizontalVelocity);
+}
+
+void Player::Shoot()
+{
+	RaycastHit hit;
+	
+	if (Input::getKeyDown('E'))
+	{
+
+		if (Physics::raycast(hit, camera.pos + camera.dir, camera.dir))
+		{
+			GameObject * hitObject = &hit.collider->gameObject;
+
+			Enemy * old_child = dynamic_cast<Enemy*>(hitObject);
+
+			if (old_child)
+			{
+				old_child->Die();
+			}
+		}
+	}
 }

@@ -48,7 +48,7 @@ Camera::~Camera()
 }
 
 #define movespeed 4.0f
-#define mouseSensitivity 10.0F
+#define mouseSensitivity 40.0f
 
 
 void Camera::UpdateCamera(vec3 position)

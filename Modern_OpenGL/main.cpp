@@ -487,7 +487,7 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 		{
 			if (msg.message == WM_QUIT)				// Have We Received A Quit Message?
 			{
-				done = TRUE;							// If So done=TRUE
+				done = TRUE;							// If So done=TRUEd
 			}
 			else									// If Not, Deal With Window Messages
 			{
@@ -506,7 +506,7 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				}
 				else								// Not Time To Quit, Update Screen
 				{
-					SetCursorPos(screenWidth / 2, screenHeight / 2);
+					//SetCursorPos(screenWidth / 2, screenHeight / 2);
 					Time::update();
 					Physics::PhysicsUpdate();
 					Input::update(keys);

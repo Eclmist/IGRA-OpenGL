@@ -12,6 +12,10 @@ public:
 		vec3 localScale = vec3(1, 1, 1));
 	~Transform();
 
+	void setParent(Transform &);
+
+	vec3 getPosition();
+
 	void setLocalPosition(vec3 newPos);
 	vec3 getLocalPosition() const;
 	mat4 getLocalPositionMatrix() const;
@@ -26,6 +30,8 @@ public:
 	mat4 getLocalScaleMatrix() const;
 
 	mat4 getModelMatrix();
+
+	Transform * parent;
 
 private:
 	vec3 position;

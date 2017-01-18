@@ -23,7 +23,6 @@ void Cube::setupMeshInformation()
 {
 	SamLoader::LoadModel("resources/model/cube.obj", vertexArr, numVertices);
 	mesh = new Mesh(vertexArr, numVertices, TRIANGLES);
-
 }
 
 void Cube::draw()
