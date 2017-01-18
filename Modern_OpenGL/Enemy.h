@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Time.h"
 
 class Enemy : public Drawable, public GameObject
 {
@@ -12,11 +13,19 @@ public:
 	Enemy(vec3 position = vec3(0, 0, 0));
 	~Enemy();
 
-	void Die();
+	std::vector<Enemy> enemyObjects;
 
+	void EnemyUpdate();
+	void Move();
+	void Die();
+	
 protected:
 	void setupMeshInformation();
 	void draw() override;
+
+	int moveSpeed = 1;
+
+	bool dead = false;
 
 	Mesh * mesh;
 	Vertex * vertexArr;

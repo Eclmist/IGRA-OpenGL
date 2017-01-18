@@ -19,6 +19,6 @@ private:
 	Skybox * skybox;
 	Player * player;
 
-
+	std::vector<Enemy*> enemyobjects;
 };
 

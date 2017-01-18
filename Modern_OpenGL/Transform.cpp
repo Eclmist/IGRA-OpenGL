@@ -33,6 +33,11 @@ void Transform::setRotation(vec3 newRot)
 	rotation = newRot;
 }
 
+void Transform::LerpRotation(vec3 src, vec3 dest, float factor) 
+{
+	rotation = src + factor*(dest - src);
+}
+
 vec3 Transform::getRotation() const
 {
 	return rotation;

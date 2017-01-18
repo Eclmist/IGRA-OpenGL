@@ -50,9 +50,7 @@ void Level01::Load()
 	gameobjects.push_back(new Weapon(vec3(0, 0, 0)));
 	gameobjects[7]->transform.setLocalScale(vec3(0.2775));
 
-	gameobjects.push_back(new Enemy(vec3(1, 1, 1)));
-	gameobjects[8]->SetColliderActive(true);
-	gameobjects[8]->SetRigidbodyActive(true);
+	enemyobjects.push_back(new Enemy(vec3(0, 0, 0)));
 
 	loaded = true;
 }
@@ -63,6 +61,8 @@ void Level01::Update()
 	skybox->Update(player->transform.getLocalPosition());
 	player->Update();
 	SetupLight();
+
+	enemyobjects[0]->EnemyUpdate();
 
 	//vec3 awpTargetPos = camera.pos - camera.right * wp_right +
 	//	camera.dir * wp_forward - (camera.up * wp_up);
@@ -76,6 +76,10 @@ void Level01::Update()
 
 	if (Input::getKey('P'))
 		sceneDebug = true;
+
+	if (Input::getKey('F')) {
+		enemyobjects[0]->Die();
+	}
 
 	if (sceneDebug)
 	{

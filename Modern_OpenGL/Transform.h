@@ -17,6 +17,7 @@ public:
 	mat4 getLocalPositionMatrix() const;
 
 	void setRotation(vec3 newRot);
+	void LerpRotation(vec3 source, vec3 destination, float factor);
 	vec3 getRotation() const;
 	mat4 getRotationMatrix() const;
 
