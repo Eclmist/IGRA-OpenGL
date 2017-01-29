@@ -7,6 +7,7 @@ public:
 	~SceneManager();
 
 	Scene * GetActiveScene();
+	static SceneManager* Instance;
 
 	bool LoadScene(std::string name);
 

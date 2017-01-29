@@ -12,7 +12,7 @@ Skybox::Skybox()
 Skybox::~Skybox()
 {
 	delete mesh;
-	delete[] vertexArr;
+	//delete[] vertexArr; TODO: Fix memory leak
 	delete texture;
 
 }

@@ -6,13 +6,17 @@ public:
 	~GameManager();
 
 	void GameManagerUpdate();
-	void EndGame();
+	void EndGame(bool won);
 	void PointIncrement();
 
 	int playerHealth;
 	int playerPoints;
-	int timeLeft;
+	float timeElapsed;
+	float totalTime;
 
-	bool completeLevel = false;
+	bool levelCompleted = false;
+	bool levelStarted = false;
+
+	static GameManager* Instance;
 };
 

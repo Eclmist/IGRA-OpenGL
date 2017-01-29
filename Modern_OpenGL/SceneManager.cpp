@@ -1,8 +1,11 @@
 #include "SceneManager.h"
 #include "Level01.h"
 
+SceneManager * SceneManager::Instance;
+
 SceneManager::SceneManager()
 {
+	Instance = this;
 	loadedScene.push_back(new Level01());
 }
 

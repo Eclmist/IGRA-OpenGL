@@ -32,7 +32,8 @@ void Weapon::draw()
 		texture->Bind();
 
 	glEnable(GL_LIGHTING);
-	glColor3f(0.1, 0.1, 0.1);
-	mesh->Draw(transform);
+	GLfloat grey[] = { 0.3, 0.3, 0.3, 0 };
+	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, grey);
+	mesh->Draw(transform, false);
 	glDisable(GL_LIGHTING);
 }

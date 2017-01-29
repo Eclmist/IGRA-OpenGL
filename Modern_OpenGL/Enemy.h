@@ -17,13 +17,13 @@ public:
 
 	void EnemyUpdate();
 	void Move();
-	void Die();
+	void Die(bool incrementPoint = true);
 	
 protected:
 	void setupMeshInformation();
 	void draw() override;
 
-	int moveSpeed = 0;
+	int moveSpeed = 1;
 
 	bool dead = false;
 
@@ -31,5 +31,8 @@ protected:
 	Vertex * vertexArr;
 	int numVertices;
 	Texture * texture;
+
+	float timeSinceDead;
+	float respawnTime = 3;
 };
 

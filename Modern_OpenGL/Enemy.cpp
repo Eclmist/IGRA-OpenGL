@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "BoxCollider.h"
+#include "GameManager.h"
 
 Enemy::Enemy(vec3 position)
 {
@@ -41,21 +42,40 @@ void Enemy::EnemyUpdate() {
 	if (transform.getLocalPosition().z >= 5) {
 		moveSpeed = -1;
 	}
-	else if(transform.getLocalPosition().z <= -5){
+	
+	if(transform.getLocalPosition().z <= -9){
 		moveSpeed = 1;
 	}
 
 	if (dead) {
 		transform.LerpRotation(transform.getRotation(), vec3(0, 0, 0), Time::deltaTime() * 10);
-		SetColliderActive(false);
+
+		if (timeSinceDead > respawnTime)
+		{
+			timeSinceDead = 0;
+			dead = false;
+			//SetColliderActive(true);
+		}
+		else
+		{
+			timeSinceDead += Time::deltaTime();
+		}
 	}
 	else {
-		transform.setLocalPosition(vec3(transform.getLocalPosition().x, transform.getLocalPosition().y, transform.getLocalPosition().z + 0.01f * moveSpeed));
 		transform.LerpRotation(transform.getRotation(), vec3(0, 0, -90), Time::deltaTime() * 10);
 	}
+
+	transform.setLocalPosition(vec3(transform.getLocalPosition().x, transform.getLocalPosition().y, transform.getLocalPosition().z + Time::deltaTime() * moveSpeed));
 }
 
-void Enemy::Die() 
+void Enemy::Die(bool incrementPoint)
 {
-	dead = true;
+	if (!dead)
+	{
+		dead = true;
+		//SetColliderActive(false); TODO: Fix enemy collider reenable
+
+		if (incrementPoint)
+			GameManager::Instance->PointIncrement();
+	}
 }

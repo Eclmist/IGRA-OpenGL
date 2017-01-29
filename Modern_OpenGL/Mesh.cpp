@@ -34,7 +34,7 @@ Mesh::~Mesh()
 	delete[] vertices;
 }
 
-void Mesh::Draw(Transform transform)
+void Mesh::Draw(Transform transform, bool useDefaultMaterial)
 {
 
 	glPushMatrix();
@@ -44,8 +44,11 @@ void Mesh::Draw(Transform transform)
 	glRotatef(transform.getRotation().x, 1, 0, 0);
 	glScalef(transform.getLocalScale().x, transform.getLocalScale().y, transform.getLocalScale().z);
 
-	GLfloat white[] = { 1, 1, 1, 0 };
-	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
+	if (useDefaultMaterial)
+	{
+		GLfloat white[] = { 1, 1, 1, 0 };
+		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
+	}
 
 	if (renderMode == TRIANGLES)
 	{

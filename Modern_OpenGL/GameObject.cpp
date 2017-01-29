@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "BoxCollider.h"
 #include "Rigidbody.h"
+#include "Physics.h"
 
 GameObject::GameObject(vec3 position)
 {
@@ -36,6 +37,7 @@ void GameObject::SetColliderActive(bool active)
 	{
 		if (collider != nullptr)
 		{
+			Physics::RemoveCollider(collider);
 			delete collider;
 			collider = nullptr;
 		}

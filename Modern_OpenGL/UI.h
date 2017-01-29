@@ -11,11 +11,11 @@ class UI
 {
 public:
 	static GLuint  base;                           // Base Display List For The Font Set
-	static GLfloat cnt1;                           // 1st Counter Used To Move Text & For Coloring
-	static GLfloat cnt2;                           // 2nd Counter Used To Move Text & For Coloring
 
 	static GLvoid BuildFont(GLvoid)
 	{
+		KillFont(); //Kill the previous font
+
 		HFONT   font;                       // Windows Font ID
 		HFONT   oldfont;                    // Used For Good House Keeping
 
@@ -67,4 +67,4 @@ public:
 		glPopAttrib();                      // Pops The Display List Bits   ( NEW )
 	}
 };
-//
+

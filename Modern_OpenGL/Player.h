@@ -13,7 +13,7 @@ public:
 	void Update();
 
 	Camera camera = Camera(45, 16 / 9, 0.01, 1000);
-	Weapon weapon = Weapon(vec3(0, 0, 0));
+	Weapon weapon = Weapon(vec3(12, 0.5, 1));
 
 	vec3 wp_right = vec3(0.102F);
 	vec3 wp_forward = vec3(0.37F);
@@ -27,7 +27,12 @@ public:
 private:
 	void Move();
 	void Shoot();
-	
+	void DrawCrosshair();
+	void ClampVelocity(vec3& velocity);
 	bool aimingDownSights;
+
+	vec3 currentAimOffset;
+	vec3 shootAnimationVector;
+
 };
 

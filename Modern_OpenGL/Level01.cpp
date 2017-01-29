@@ -4,6 +4,7 @@
 #include "Cube.h"
 #include "Level01Prefab.h"
 #include "Enemy.h"
+#include <gtc/matrix_transform.inl>
 
 Level01::Level01()
 {
@@ -21,11 +22,10 @@ void Level01::Load()
 	SetupLight();
 
 	skybox = new Skybox();
-	player = new Player(vec3(5, 100, 5));
+	player = new Player(vec3(12, 3, -2));
+	gameManager = new GameManager();
 
-	graphicsHandler = new GraphicsHandler();
-
-	gameobjects.push_back(new Cube(vec3(0, 100, 0)));
+	gameobjects.push_back(new Cube(vec3(0, 2, 0)));
 	gameobjects[0]->SetColliderActive(true);
 	gameobjects[0]->SetRigidbodyActive(true);
 	gameobjects.push_back(new Cube(vec3(0, -0.51, 0)));
@@ -45,34 +45,63 @@ void Level01::Load()
 	//gameobjects[5]->SetColliderActive(true);
 	//gameobjects[5]->SetRigidbodyActive(true);
 
+	gameobjects.push_back(new Cube(vec3(8, 0.5, 0)));
+	gameobjects[2]->SetColliderActive(true);
+	gameobjects.push_back(new Cube(vec3(8, 0.5, -8)));
+	gameobjects[3]->SetColliderActive(true);
+	gameobjects.push_back(new Cube(vec3(8, 0.5, 3.5)));
+	gameobjects[4]->SetColliderActive(true);
+	gameobjects.push_back(new Cube(vec3(8, 0.5, 4.5)));
+	gameobjects[5]->SetColliderActive(true);
+	gameobjects.push_back(new Cube(vec3(8, 1.5, 4)));
+	gameobjects[6]->SetColliderActive(true);
+
+
 	gameobjects.push_back(new Level01Prefab(vec3(0, 0, 0)));
+	gameobjects.push_back(new Level01Prefab(vec3(0, -1, 1)));
+	gameobjects[8]->transform.setLocalScale(vec3(1.5, 3, 1.5));
+
 
 	enemyobjects.push_back(new Enemy(vec3(0, 0, 0)));
+	enemyobjects.push_back(new Enemy(vec3(-3, 0, -5)));
+	enemyobjects.push_back(new Enemy(vec3(-6, 0, -8)));
+	enemyobjects.push_back(new Enemy(vec3(-9, 0, -3)));
+	enemyobjects.push_back(new Enemy(vec3(-4, 0, -1)));
+	enemyobjects.push_back(new Enemy(vec3(-9, 0, 1)));
+	enemyobjects.push_back(new Enemy(vec3(-7, 0, 3)));
+	enemyobjects.push_back(new Enemy(vec3(-1.5, 0, 5)));
 
 	loaded = true;
 }
 
 void Level01::Update()
 {
-	
+	SetupLight();
 	skybox->Update(player->transform.getLocalPosition());
 	player->Update();
-	SetupLight();
 
-	enemyobjects[0]->EnemyUpdate();
+	if (gameManager->levelStarted && !gameManager->levelCompleted)
+	{
+		gameManager->GameManagerUpdate();
 
-	//vec3 awpTargetPos = camera.pos - camera.right * wp_right +
-	//	camera.dir * wp_forward - (camera.up * wp_up);
+		for each (Enemy * e in enemyobjects)
+		{
+			e->EnemyUpdate();
+		}
+	}
+	else
+	{
+		// Load sequence
 
-	//vec3 lerpVector = awpTargetPos - gameobjects[0]->transform.getLocalPosition();
-
-	//gameobjects[0]->transform.setLocalPosition(gameobjects[0]->transform.getLocalPosition() + lerpVector *
-	//	vec3(Time::deltaTime() * 50));
-	//gameobjects[0]->transform.setRotation(vec3(-camera.pitch, -camera.yaw + 90, 0));
+	}
 
 
-	if (Input::getKey('P'))
+
+	if (Input::getKeyDown('P'))
 		sceneDebug = !sceneDebug;
+
+	if (Input::getKeyDown(' '))
+		gameManager->levelStarted = true;
 
 	if (sceneDebug)
 	{
@@ -115,6 +144,11 @@ void Level01::Update()
 
 		debugLine6 = "fov: " + std::to_string(player->camera.fov);
 
+		debugLine7 = "mouse x: " + std::to_string(Input::getMouseDelta().x);
+		debugLine8 = "mouse y: " + std::to_string(Input::getMouseDelta().y);
+
+		debugLine9 = "Score: " + std::to_string(GameManager::Instance->playerPoints);;
+
 	}
 
 	Draw();
@@ -124,4 +158,50 @@ void Level01::Draw()
 {
 	Scene::Draw();
 	graphicsHandler->drawCollage();
+	DrawProgressBar(1 - (gameManager->timeElapsed / gameManager->totalTime));
+}
+
+void Level01::DrawProgressBar(float timeRemaining)
+{
+	float paddingLeft = 100;
+	float paddingRight = 100;
+	float paddingTop = 50;
+	float height = 30;
+	float xExtend = (screenWidth - paddingLeft - paddingRight) * timeRemaining;
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glm::mat4 orth = glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f);
+	glMultMatrixf(&(orth[0][0]));
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	glColor4f(0.8f - (timeRemaining * 0.8f), (timeRemaining * 0.8f), 0.1f, 0.8f);
+
+	glBegin(GL_QUADS);                      
+	glVertex2f(paddingLeft + xExtend, paddingTop); // top right
+	glVertex2f(paddingLeft, paddingTop); // top left
+	glVertex2f(paddingLeft, paddingTop + height); // bottom left
+	glVertex2f(paddingLeft + xExtend, paddingTop + height); // bottom right
+
+	glEnd();
+
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+
+	glDisable(GL_BLEND);
+
+}
+
+void Level01::DrawScoreText(int currentScore, int targetScore)
+{
+
 }

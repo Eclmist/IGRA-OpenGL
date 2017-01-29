@@ -243,8 +243,10 @@ bool Physics::CheckAABBCollision(vec3 pos, vec3 halfsize, vec3 oPos, vec3 oHalfs
 
 void Physics::PhysicsUpdate()
 {
+
 	for each (BoxCollider * bc in colliders)
-	{
+	{	
+
 		bc->aabb.UpdatePosition();
 	}
 

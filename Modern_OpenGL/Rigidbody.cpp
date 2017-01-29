@@ -50,14 +50,14 @@ void Rigidbody::Update()
 
 	if (gameObject.collider != nullptr)
 	{
-		AABB temp = AABB(gameObject.collider->aabb) ;
-		temp.pos = newPosition;
-		if (Physics::CheckAABBCollision(temp))
+		AABB * temp = new AABB(gameObject.collider->aabb) ;
+		temp->pos = newPosition;
+		if (Physics::CheckAABBCollision(*temp))
 		{
 			velocity = vec3(0);
 			
 			bool hit = true;
-			vec3 checkPoint = temp.pos;
+			vec3 checkPoint = temp->pos;
 			vec3 startPoint = currentPosition;
 			vec3 halfVel = (checkPoint - startPoint) * vec3(0.5);
 
@@ -73,13 +73,15 @@ void Rigidbody::Update()
 					checkPoint += halfVel;
 				}
 
-				temp.pos = checkPoint;
-				hit = Physics::CheckAABBCollision(temp);
+				temp->pos = checkPoint;
+				hit = Physics::CheckAABBCollision(*temp);
 				halfVel *= vec3(0.5f);
 			}
 
 			newPosition = checkPoint;
 		}
+
+		delete temp;
 	}
 
 	gameObject.transform.setLocalPosition(newPosition);

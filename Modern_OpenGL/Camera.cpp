@@ -35,8 +35,8 @@ Camera::Camera(float fov, float aspectRatio, float nearClipping, float farClippi
 	Instance = this;
 
 	pos = vec3(0, 0, 1);
-	dir = normalize(vec3(0, 0, -1)); //does not work
-	yaw = -90;
+	//dir = normalize(vec3(0, 1, 0)); //does not work
+	yaw = -180;
 
 
 	proj = perspective(fov, aspectRatio, nearClipping, farClipping);
@@ -48,7 +48,7 @@ Camera::~Camera()
 }
 
 #define movespeed 4.0f
-#define mouseSensitivity 40.0f
+#define mouseSensitivity 20.0f
 
 
 void Camera::UpdateCamera(vec3 position)
@@ -60,6 +60,7 @@ void Camera::UpdateCamera(vec3 position)
 
 	PitchCamera(-Input::getMouseDelta().y * Time::deltaTime() * mouseSensitivity);
 	YawCamera(Input::getMouseDelta().x * Time::deltaTime() * mouseSensitivity);
+	UpdateLookAt();
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();									
@@ -80,13 +81,11 @@ void Camera::PitchCamera(float deltaPitch)
 	pitch += deltaPitch;
 	//Clamping pitch
 	pitch = clamp(pitch, -89.9999f, 89.9999f);
-	UpdateLookAt();
 }
 
 void Camera::YawCamera(float deltaYaw)
 {
 	yaw += deltaYaw;
-	UpdateLookAt();
 }
 
 mat4 Camera::ViewProjectionMatrix()

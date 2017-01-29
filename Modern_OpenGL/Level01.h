@@ -4,6 +4,7 @@
 #include "Skybox.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "GameManager.h"
 
 class Level01 :	public Scene
 {
@@ -16,9 +17,12 @@ public:
 
 private:
 	virtual void Draw();
+	void DrawProgressBar(float timeRemaining);
+	void DrawScoreText(int currentScore, int targetScore);
 
 	Skybox * skybox;
 	Player * player;
+	GameManager * gameManager;
 
 	std::vector<Enemy*> enemyobjects;
 };

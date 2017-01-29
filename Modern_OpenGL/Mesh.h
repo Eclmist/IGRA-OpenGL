@@ -31,7 +31,7 @@ public:
 	Mesh(Vertex* vertices, unsigned long numVertices, RenderMode renderMode);
 	virtual ~Mesh();
 
-	void Draw(Transform transform);
+	void Draw(Transform transform, bool useDefaultMaterial = true);
 
 private: 
 	Vertex* vertices;

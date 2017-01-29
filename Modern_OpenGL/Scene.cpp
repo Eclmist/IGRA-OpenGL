@@ -19,13 +19,14 @@ Scene::~Scene()
 
 void Scene::Unload()
 {
-	Physics::Reset();
-	GraphicsHandler::reset();
-
+	//TODO: Fix memory leak
+	//Physics::Reset();
+	//GraphicsHandler::reset();
+/*
 	for (auto it = gameobjects.begin(); it != gameobjects.end(); ++it) {
 		delete *it;
 	}
-	gameobjects.clear();
+	gameobjects.clear();*/
 }
 
 void Scene::Draw()

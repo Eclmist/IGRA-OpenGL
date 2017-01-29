@@ -1,11 +1,15 @@
 #include "GameManager.h"
 #include "Input.h"
+#include "Time.h"
+
+GameManager * GameManager::Instance;
 
 GameManager::GameManager()
 {
+	Instance = this;
 	playerHealth = 100;
 	playerPoints = 0;
-	timeLeft = 60;
+	totalTime = 60;
 }
 
 
@@ -14,27 +18,17 @@ GameManager::~GameManager()
 }
 
 void GameManager::GameManagerUpdate() {
+	timeElapsed += Time::deltaTime();
+
 	if (playerPoints >= 45) {
-		completeLevel = true;
+		levelCompleted = true;
+		EndGame(true);
 	}
 
-	if (completeLevel == true && Input::getKey('F')) {
-		//Runs next Scene
-		//Do not use spacebar for GetKeyDown as player might need to jump
-		completeLevel = false;
-		timeLeft = 60;
-	}
-
-	switch (completeLevel) {
-	case true:
-		if (timeLeft <= 0) {
-			//Runs next Scene
-		}
-		break;
-	case false:
-		if (timeLeft <= 0 || playerHealth <= 0) {
-			EndGame();
-		}
+	else if (timeElapsed > totalTime || playerHealth <= 0) 
+	{
+		levelCompleted = true;
+		EndGame(false);
 	}
 }
 
@@ -42,6 +36,6 @@ void GameManager::PointIncrement() {
 	playerPoints++;
 }
 
-void GameManager::EndGame() {
+void GameManager::EndGame(bool won) {
 	// End Game
 }

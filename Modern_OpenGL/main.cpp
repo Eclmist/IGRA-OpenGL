@@ -21,6 +21,8 @@ HWND		hWnd = NULL;		// Holds Our Window Handle
 HINSTANCE	hInstance;		// Holds The Instance Of The Application
 
 bool	keys[256];			// Array Used For The Keyboard Routine
+bool	mouse[3];			// Array Used For The Mouse Routine
+
 bool	active = TRUE;		// Window Active Flag Set To TRUE By Default
 bool	fullscreen = TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
 
@@ -28,8 +30,9 @@ LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 
 #define WINDOWED_WIDTH 1366
 #define WINDOWED_HEIGHT 768
-#define WINDOW_TITLE "CS:COME"
+#define WINDOW_TITLE "Counter Strike : Local Defensive"
 #define DEBUG_CONSOLE TRUE
+#define LOCK_CURSOR TRUE
 /* GLOBALS */
 int screenWidth = 1366, screenHeight = 768;
 
@@ -65,12 +68,13 @@ int InitEngine(HWND & hWnd)
 	// Init UI handlers
 	UI::BuildFont();
 
+	// Init Time functions TODO: MOVE THIS BELOW
+	new Time();
+
 	// Init Scene functions
 	sceneManager = new SceneManager();
 	sceneManager->LoadScene("Level01");
 
-	// Init Time functions (MUST BE LAST)
-	new Time();
 
 	return TRUE;
 }
@@ -398,13 +402,47 @@ LRESULT CALLBACK WndProc(HWND	hWnd,			// Handle For This Window
 
 			if (raw->header.dwType == RIM_TYPEMOUSE)
 			{
-				int xPosRelative = raw->data.mouse.lLastX;
-				int yPosRelative = raw->data.mouse.lLastY;
+				LONG xPosRelative = raw->data.mouse.lLastX;
+				LONG yPosRelative = raw->data.mouse.lLastY;
 				Input::setMouseDelta(vec2(xPosRelative, yPosRelative));
 			}
-			break;
+			return 0;								// Jump Back
 		}
-
+		case WM_MOUSEMOVE:
+		{
+			Input::setMousePosition(vec2(LOWORD(lParam), HIWORD(lParam)));
+			return 0;
+		}
+		case WM_LBUTTONDOWN:
+		{			
+			mouse[0] = true;
+			return 0;								// Jump Back
+		}
+		case WM_LBUTTONUP:
+		{
+			mouse[0] = false;
+			return 0;								// Jump Back
+		}
+		case WM_MBUTTONDOWN:
+		{
+			mouse[1] = true;
+			return 0;								// Jump Back
+		}
+		case WM_MBUTTONUP:
+		{
+			mouse[1] = false;
+			return 0;								// Jump Back
+		}
+		case WM_RBUTTONDOWN:
+		{
+			mouse[2] = true;
+			return 0;								// Jump Back
+		}
+		case WM_RBUTTONUP:
+		{
+			mouse[2] = false;
+			return 0;								// Jump Back
+		}
 	}
 
 	// Pass All Unhandled Messages To DefWindowProc
@@ -506,10 +544,18 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				}
 				else								// Not Time To Quit, Update Screen
 				{
-					//SetCursorPos(screenWidth / 2, screenHeight / 2);
+
 					Time::update();
 					Physics::PhysicsUpdate();
-					Input::update(keys);
+
+					if (GetFocus() == hWnd)
+					{
+						if (LOCK_CURSOR)
+							SetCursorPos(screenWidth / 2, screenHeight / 2);
+
+						Input::update(keys, mouse);
+					}
+
 					DrawGLScene();					// Draw The Scene
 					SwapBuffers(hDC);				// Swap Buffers (Double Buffering)
 				}
