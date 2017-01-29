@@ -109,11 +109,13 @@ void Level01::Update()
 		{
 			gameManager->Reset();
 			SceneManager::Instance->LoadScene("Level01");
+			return;
 		}
 		if (Input::getKeyDown('X'))
 		{
 			gameManager->Reset();
 			SceneManager::Instance->LoadScene("MainMenu");
+			return;
 		}
 
 	}
