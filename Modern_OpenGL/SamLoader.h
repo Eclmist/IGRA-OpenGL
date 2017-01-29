@@ -1,3 +1,9 @@
+/*
+Written by: Ivan Leong Jit Kiong
+Admin No: p1548268
+*/
+
+
 #pragma once
 
 #include <math.h>

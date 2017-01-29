@@ -37,10 +37,10 @@ void GameManager::GameManagerUpdate() {
 void GameManager::UpdateEnemyCount() {
 	switch (diff) {
 	case easy:
-		enemyCount = 12;
+		enemyCount = 6;
 		break;
 	case medium:
-		enemyCount = 7;
+		enemyCount = 5;
 		break;
 	case hard:
 		enemyCount = 4;
