@@ -11,7 +11,7 @@ struct AABB
 	unsigned int uid;
 
 	glm::vec3 pos;
-	glm::vec3 halfSize; //TODO: Refactor to "Bounds" 
+	glm::vec3 bounds;
 
 	glm::vec3 Size() const;
 	bool CheckOverlap(const AABB &other) const;

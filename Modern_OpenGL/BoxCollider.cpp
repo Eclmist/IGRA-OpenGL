@@ -19,5 +19,5 @@ BoxCollider::~BoxCollider()
 void BoxCollider::setAABB(glm::vec3 pos, glm::vec3 halfsize)
 {
 	aabb.pos = pos;
-	aabb.halfSize = halfsize;
+	aabb.bounds = halfsize;
 }

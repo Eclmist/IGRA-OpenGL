@@ -16,6 +16,7 @@ MainMenu::~MainMenu()
 void MainMenu::Load()
 {
 	difficultyText = difficultyEasy;
+	ShowCursor(true);
 
 	SetupLight();
 

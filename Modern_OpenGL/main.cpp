@@ -63,6 +63,9 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 
 int InitEngine(HWND & hWnd)
 {
+	// Globally seed random
+	srand(time(NULL));
+
 	//ShowCursor(false);
 
 	// Init Input functions
@@ -563,8 +566,9 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 
 					if (GetFocus() == hWnd)
 					{
-						//if (LOCK_CURSOR)
-							//SetCursorPos(screenWidth / 2, screenHeight / 2);
+						if (LOCK_CURSOR)
+							if (SceneManager::Instance->GetActiveScene()->name != "MainMenu")
+								SetCursorPos(screenWidth / 2, screenHeight / 2);
 
 						Input::update(keys, mouse);
 					}
@@ -574,29 +578,29 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				}
 			}
 
-			if (keys[VK_F1])						// Is F1 Being Pressed?
-			{
-				keys[VK_F1] = FALSE;					// If So Make Key FALSE
-				KillGLWindow();						// Kill Our Current Window
-				fullscreen = !fullscreen;				// Toggle Fullscreen / Windowed Mode
-														// Recreate Our OpenGL Window
+			//if (keys[VK_F1])						// Is F1 Being Pressed?
+			//{
+			//	keys[VK_F1] = FALSE;					// If So Make Key FALSE
+			//	KillGLWindow();						// Kill Our Current Window
+			//	fullscreen = !fullscreen;				// Toggle Fullscreen / Windowed Mode
+			//											// Recreate Our OpenGL Window
 
-				if (fullscreen)
-				{
-					screenWidth = GetSystemMetrics(SM_CXSCREEN);
-					screenHeight = GetSystemMetrics(SM_CYSCREEN);
-				}
-				else
-				{
-					screenWidth = WINDOWED_WIDTH;
-					screenHeight = WINDOWED_HEIGHT;
-				}
+			//	if (fullscreen)
+			//	{
+			//		screenWidth = GetSystemMetrics(SM_CXSCREEN);
+			//		screenHeight = GetSystemMetrics(SM_CYSCREEN);
+			//	}
+			//	else
+			//	{
+			//		screenWidth = WINDOWED_WIDTH;
+			//		screenHeight = WINDOWED_HEIGHT;
+			//	}
 
-				if (!CreateGLWindow(WINDOW_TITLE, screenWidth, screenHeight, 32, fullscreen))
-				{
-					return 0;						// Quit If Window Was Not Created
-				}
-			}
+			//	if (!CreateGLWindow(WINDOW_TITLE, screenWidth, screenHeight, 32, fullscreen))
+			//	{
+			//		return 0;						// Quit If Window Was Not Created
+			//	}
+			//}
 		}
 	}
 

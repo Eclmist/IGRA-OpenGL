@@ -19,14 +19,15 @@ Scene::~Scene()
 
 void Scene::Unload()
 {
-	//TODO: Fix memory leak
-	//Physics::Reset();
-	//GraphicsHandler::reset();
-/*
 	for (auto it = gameobjects.begin(); it != gameobjects.end(); ++it) {
 		delete *it;
 	}
-	gameobjects.clear();*/
+	gameobjects.clear();
+
+
+	Physics::Reset();
+	GraphicsHandler::reset();
+
 }
 
 void Scene::Draw()
@@ -82,7 +83,6 @@ void Scene::PrintLine(int id)
 		UI::glPrint(debugLine3.c_str());
 		break;
 	case 4:
-		UI::BuildFont(-22);
 		UI::glPrint(debugLine4.c_str());
 		break;
 	case 5:

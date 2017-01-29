@@ -13,12 +13,11 @@ Level01::Level01()
 
 Level01::~Level01()
 {
-	delete skybox;
-	delete player;
 }
 
 void Level01::Load()
 {
+	ShowCursor(false);
 	SetupLight();
 
 	skybox = new Skybox();
@@ -45,7 +44,7 @@ void Level01::Load()
 	//gameobjects[5]->SetColliderActive(true);
 	//gameobjects[5]->SetRigidbodyActive(true);
 
-	gameobjects.push_back(new Cube(vec3(8, 0.5, 0)));
+	gameobjects.push_back(new Cube(vec3(8, 0.5, 0), true));
 	gameobjects[2]->SetColliderActive(true);
 	gameobjects.push_back(new Cube(vec3(8, 0.5, -8)));
 	gameobjects[3]->SetColliderActive(true);
@@ -76,6 +75,8 @@ void Level01::Load()
 	//enemyobjects.push_back(new Enemy(vec3(-7, 0, 3)));
 	//enemyobjects.push_back(new Enemy(vec3(-1.5, 0, 5)));
 
+
+
 	loaded = true;
 }
 
@@ -85,28 +86,37 @@ void Level01::Update()
 	skybox->Update(player->transform.getLocalPosition());
 	player->Update();
 
-	if (gameManager->levelStarted && !gameManager->levelCompleted)
-	{
-		gameManager->GameManagerUpdate();
-
+	if (gameManager->levelStarted)
 		for each (Enemy * e in enemyobjects)
 		{
 			e->EnemyUpdate();
 		}
-	}
-	else
+
+	if (gameManager->levelStarted && !gameManager->levelCompleted)
 	{
-		// Load sequence
-
+		gameManager->GameManagerUpdate();
 	}
-
-
 
 	if (Input::getKeyDown('P'))
 		sceneDebug = !sceneDebug;
 
 	if (Input::getKeyDown(' '))
 		gameManager->levelStarted = true;
+
+	if (gameManager->levelCompleted)
+	{
+		if (Input::getKeyDown('Z'))
+		{
+			gameManager->Reset();
+			SceneManager::Instance->LoadScene("Level01");
+		}
+		if (Input::getKeyDown('X'))
+		{
+			gameManager->Reset();
+			SceneManager::Instance->LoadScene("MainMenu");
+		}
+
+	}
 
 	if (sceneDebug)
 	{
@@ -117,11 +127,12 @@ void Level01::Update()
 		if (Input::getKey('U')) player->wp_forward += vec3(0.002F);
 		if (Input::getKey('O')) player->wp_forward -= vec3(0.002F);
 
-		if (Input::getKey('M')) gameobjects[0]->transform.setLocalPosition(vec3(0,100,0));
 
-		if (Input::getKey('V')) SetupLight();
-		if (Input::getKey('B')) DisableLight();
+		if (Input::getKey('V')) DisableLight();
 
+		if (Input::getKeyDown('B')) GameManager::Instance->levelCompleted = true;
+		if (Input::getKeyDown('N')) GameManager::Instance->won = true;
+		if (Input::getKeyDown('M')) GameManager::Instance->won = false;
 
 		if (Input::getKey('F'))	enemyobjects[0]->Die();
 
@@ -159,11 +170,24 @@ void Level01::Update()
 	Draw();
 }
 
+void Level01::Unload()
+{
+	delete skybox;
+	delete player;
+
+	Scene::Unload();
+}
+
 void Level01::Draw()
 {
 	Scene::Draw();
 	graphicsHandler->drawCollage();
 	DrawProgressBar(1 - (gameManager->timeElapsed / gameManager->totalTime));
+	DrawScoreText(gameManager->playerPoints, gameManager->targetPoints);
+	if (gameManager->levelCompleted)
+	{
+		DrawEndGameText(gameManager->won);
+	}
 }
 
 void Level01::DrawProgressBar(float timeRemaining)
@@ -208,5 +232,86 @@ void Level01::DrawProgressBar(float timeRemaining)
 
 void Level01::DrawScoreText(int currentScore, int targetScore)
 {
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glm::mat4 orth = glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f);
+	glMultMatrixf(&(orth[0][0]));
 
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	UI::BuildFont(-45);
+	glColor4f(0.2, 0.2, 0.2, 0);
+	glRasterPos2f(98, screenHeight - 98);
+	UI::glPrint((std::to_string(currentScore) + "/" + std::to_string(targetScore)).c_str());
+
+	glColor4f(1, 1, 1, 0);
+	glRasterPos2f(100, screenHeight - 100);
+	UI::glPrint((std::to_string(currentScore) + "/" + std::to_string(targetScore)).c_str());
+
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+
+}
+
+void Level01::DrawEndGameText(bool won)
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glm::mat4 orth = glm::ortho(0.0f, (float)screenWidth, (float)screenHeight, 0.0f);
+	glMultMatrixf(&(orth[0][0]));
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	UI::BuildFont(80);
+
+	if (won)
+	{
+		glColor4f(0.2, 0.2, 0.2, 0);
+		glRasterPos2f(screenWidth / 2 - 172, screenHeight / 2 - 38);
+		UI::glPrint((std::string("You win!")).c_str());
+
+		glColor4f(1, 1, 1, 0);
+		glRasterPos2f(screenWidth / 2 - 170, screenHeight / 2 - 40);
+		UI::glPrint((std::string("You win!")).c_str());
+
+
+	}
+	else
+	{
+		glColor4f(0.2, 0.2, 0.2, 0);
+		glRasterPos2f(screenWidth / 2 - 252, screenHeight / 2 - 38);
+		UI::glPrint((std::string("You've lost!")).c_str());
+
+		glColor4f(1, 1, 1, 0);
+		glRasterPos2f(screenWidth / 2 - 250, screenHeight / 2 - 40);
+		UI::glPrint((std::string("You've lost!")).c_str());
+	}
+
+	UI::BuildFont(30);
+
+	glColor4f(0.2, 0.2, 0.2, 0);
+	glRasterPos2f(screenWidth / 2 - 302, screenHeight / 2 + 82);
+	UI::glPrint((std::string("Press Z to retry")).c_str());
+	glRasterPos2f(screenWidth / 2 - 302, screenHeight / 2 + 122);
+	UI::glPrint((std::string("Press X to to quit to main menu")).c_str());
+
+	glColor4f(1, 1, 1, 0);
+	glRasterPos2f(screenWidth / 2 - 300, screenHeight / 2 +80);
+	UI::glPrint((std::string("Press Z to retry")).c_str());
+	glRasterPos2f(screenWidth / 2 - 300, screenHeight / 2 + 120);
+	UI::glPrint((std::string("Press X to to quit to main menu")).c_str());
+
+
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
 }

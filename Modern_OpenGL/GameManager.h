@@ -12,20 +12,24 @@ public:
 	~GameManager();
 
 	void GameManagerUpdate();
-	void EndGame(bool won);
 	void PointIncrement();
 	void UpdateEnemyCount();
 
 	Difficulty diff;
 	int enemyCount;
 
+	void Reset();
+
 	int playerHealth;
 	int playerPoints;
+	int targetPoints;
+
 	float timeElapsed;
 	float totalTime;
 
 	bool levelCompleted = false;
 	bool levelStarted = false;
+	bool won = false;
 
 	static GameManager* Instance;
 };

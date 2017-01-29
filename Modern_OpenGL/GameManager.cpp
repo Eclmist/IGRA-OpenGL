@@ -10,6 +10,7 @@ GameManager::GameManager()
 	Instance = this;
 	playerHealth = 100;
 	playerPoints = 0;
+	targetPoints = 10;
 	totalTime = 60;
 }
 
@@ -21,15 +22,15 @@ GameManager::~GameManager()
 void GameManager::GameManagerUpdate() {
 	timeElapsed += Time::deltaTime();
 
-	if (playerPoints >= 45) {
+	if (playerPoints >= targetPoints) {
 		levelCompleted = true;
-		EndGame(true);
+		won = true;
 	}
 
 	else if (timeElapsed > totalTime || playerHealth <= 0)
 	{
 		levelCompleted = true;
-		EndGame(false);
+		won = false;
 	}
 }
 
@@ -51,6 +52,11 @@ void GameManager::PointIncrement() {
 	playerPoints++;
 }
 
-void GameManager::EndGame(bool won) {
-	// End Game
+void GameManager::Reset()
+{
+	timeElapsed = 0;
+	playerPoints = 0;
+	levelCompleted = false;
+	levelStarted = false;
+	won = false;
 }

@@ -31,7 +31,9 @@ void GraphicsHandler::burnPainting(Drawable * painting)
 
 void GraphicsHandler::reset()
 {
-	while (!theAlmightyCollage.empty()) delete theAlmightyCollage.back(), 
-		theAlmightyCollage.pop_back();
-
+	//TODO: FIX
+	//for (auto it = theAlmightyCollage.begin(); it != theAlmightyCollage.end(); ++it) {
+	//	delete *it;
+	//}
+	theAlmightyCollage.clear();
 }

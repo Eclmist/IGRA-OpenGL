@@ -14,11 +14,13 @@ public:
 
 	virtual void Load();
 	virtual void Update();
+	virtual void Unload();
 
 private:
 	virtual void Draw();
 	void DrawProgressBar(float timeRemaining);
 	void DrawScoreText(int currentScore, int targetScore);
+	void DrawEndGameText(bool won);
 
 	Skybox * skybox;
 	Player * player;

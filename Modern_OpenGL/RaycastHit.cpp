@@ -36,7 +36,7 @@ RaycastHit::~RaycastHit()
 void RaycastHit::CalculateHitSide(BoxCollider & colliderHit, vec3 hitPoint)
 {
 	vec3 target = colliderHit.aabb.pos;
-	vec3 halfsize = colliderHit.aabb.halfSize;
+	vec3 halfsize = colliderHit.aabb.bounds;
 	if (glm::abs(hitPoint.x - (target.x - halfsize.x)) < LENIENCY)
 	{
 		hitSide = LEFT;

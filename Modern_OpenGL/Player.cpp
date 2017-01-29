@@ -121,14 +121,15 @@ void Player::Shoot()
 
 			Enemy * old_child = dynamic_cast<Enemy*>(hitObject);
 
-			if (old_child)
+			if (old_child && !GameManager::Instance->levelCompleted && GameManager::Instance->levelStarted)
 			{
 				old_child->Die();
 				return;
 			}
 		}
 
-		GameManager::Instance->timeElapsed += 2;
+		if (!GameManager::Instance->levelCompleted && GameManager::Instance->levelStarted)
+			GameManager::Instance->timeElapsed += 2;
 	}
 }
 

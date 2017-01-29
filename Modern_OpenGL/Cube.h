@@ -1,3 +1,4 @@
+
 #pragma once
 #include "Transform.h"
 #include "AABB.h"
@@ -9,7 +10,7 @@
 class Cube : public Drawable, public GameObject
 {
 public:
-	Cube(vec3 position = vec3(0, 0, 0));
+	Cube(vec3 position = vec3(0, 0, 0), bool magical = false);
 	~Cube();
 
 	static float radius;
@@ -17,10 +18,15 @@ protected:
 
 	void setupMeshInformation();
 	void draw() override;
+	void SetupProceduralTex();
 
 	Mesh * mesh;
 	Vertex * vertexArr;
 	int numVertices;
 	Texture * texture;
+
+	bool magical = false;
+
+	GLubyte proceduralTex[64][64][3];
 };
 

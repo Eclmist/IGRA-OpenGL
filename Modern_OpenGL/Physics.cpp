@@ -68,7 +68,7 @@ bool Physics::raycast(RaycastHit& out, glm::vec3 v0, glm::vec3 dir, float maxDis
 		}
 
 		//Check if the collider is even possibly in range (Check if max distance ray is within the bounding sphere)
-		//if ((c->aabb.pos-v0).length() > maxDistance + c->aabb.halfSize.length()) continue;
+		//if ((c->aabb.pos-v0).length() > maxDistance + c->aabb.bounds.length()) continue;
 
 		//lower and upper fraction of line intersection
 		float f_lower = 0;
@@ -218,12 +218,12 @@ bool Physics::CheckAABBCollision(AABB & aabb)
 
 bool Physics::CheckAABBCollision(AABB & a, AABB & b)
 {
-	return CheckAABBCollision(a.pos, a.halfSize, b.pos, b.halfSize);
+	return CheckAABBCollision(a.pos, a.bounds, b.pos, b.bounds);
 }
 
 bool Physics::CheckAABBCollision(AABB & a, vec3 oPos, vec3 oHalfsize)
 {
-	return CheckAABBCollision(a.pos, a.halfSize, oPos, oHalfsize);
+	return CheckAABBCollision(a.pos, a.bounds, oPos, oHalfsize);
 }
 
 bool Physics::CheckAABBCollision(vec3 pos, vec3 halfsize, vec3 oPos, vec3 oHalfsize)

@@ -9,7 +9,7 @@ Enemy::Enemy(vec3 position)
 	setupMeshInformation();
 
 	SetColliderActive(true);
-	collider->aabb.halfSize = vec3(0.025, 2, 0.33);
+	collider->aabb.bounds = vec3(0.025, 2, 0.33);
 	// TODO : make aabb pos adjustable
 
 	if (GameManager::Instance->diff == easy) {

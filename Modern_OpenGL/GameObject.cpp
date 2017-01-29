@@ -30,7 +30,7 @@ void GameObject::SetColliderActive(bool active)
 			collider = new BoxCollider(*this);
 		}
 		collider->aabb.pos = transform.getLocalPosition();
-		collider->aabb.halfSize = transform.getLocalScale() * vec3(0.5);
+		collider->aabb.bounds = transform.getLocalScale() * vec3(0.5);
 
 	}
 	else
