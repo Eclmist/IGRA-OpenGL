@@ -68,6 +68,8 @@ void Scene::DrawDebugInfo()
 
 void Scene::PrintLine(int id)
 {
+	UI::BuildFont();
+
 	switch (id)
 	{
 	case 1:
@@ -80,6 +82,7 @@ void Scene::PrintLine(int id)
 		UI::glPrint(debugLine3.c_str());
 		break;
 	case 4:
+		UI::BuildFont(-22);
 		UI::glPrint(debugLine4.c_str());
 		break;
 	case 5:

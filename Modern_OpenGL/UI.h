@@ -12,8 +12,15 @@ class UI
 public:
 	static GLuint  base;                           // Base Display List For The Font Set
 
-	static GLvoid BuildFont(GLvoid)
+	static int lastFontSize;
+
+	static GLvoid BuildFont(int fontsize = -16)
 	{
+		if (lastFontSize == fontsize)
+			return;
+
+		lastFontSize = fontsize;
+
 		KillFont(); //Kill the previous font
 
 		HFONT   font;                       // Windows Font ID
@@ -21,7 +28,7 @@ public:
 
 		base = glGenLists(96);                  // Storage For 96 Characters ( NEW )
 
-		font = CreateFont(-16,                // Height Of Font ( NEW )
+		font = CreateFont(fontsize,                // Height Of Font ( NEW )
 			0,              // Width Of Font
 			0,              // Angle Of Escapement
 			0,              // Orientation Angle
