@@ -4,8 +4,6 @@
 
 SceneManager * SceneManager::Instance;
 
-SceneManager * SceneManager::Instance;
-
 SceneManager::SceneManager()
 {
 	Instance = this;

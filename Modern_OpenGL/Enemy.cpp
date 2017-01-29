@@ -11,8 +11,24 @@ Enemy::Enemy(vec3 position)
 	SetColliderActive(true);
 	collider->aabb.halfSize = vec3(0.025, 2, 0.33);
 	// TODO : make aabb pos adjustable
-}
 
+	if (GameManager::Instance->diff == easy) {
+		diffSpeed = 1;
+		GameManager::Instance->totalTime = 60;
+	}
+	else if (GameManager::Instance->diff == medium) {
+		diffSpeed = 2;
+		transform.setLocalScale(vec3(0.7, 0.7, 0.7));
+		GameManager::Instance->totalTime = 40;
+	}
+	else if (GameManager::Instance->diff == hard) {
+		diffSpeed = 4;
+		transform.setLocalScale(vec3(0.4, 0.4, 0.4));
+		GameManager::Instance->totalTime = 20;
+	}
+
+	moveSpeed = diffSpeed;
+}
 
 Enemy::~Enemy()
 {
@@ -38,13 +54,12 @@ void Enemy::draw()
 }
 
 void Enemy::EnemyUpdate() {
-
 	if (transform.getLocalPosition().z >= 5) {
-		moveSpeed = -1;
+		moveSpeed = -diffSpeed;
 	}
 	
 	if(transform.getLocalPosition().z <= -9){
-		moveSpeed = 1;
+		moveSpeed = diffSpeed;
 	}
 
 	if (dead) {

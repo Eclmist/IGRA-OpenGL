@@ -15,11 +15,11 @@ MainMenu::~MainMenu()
 
 void MainMenu::Load()
 {
-	difficulty = difficultyEasy;
+	difficultyText = difficultyEasy;
 
 	SetupLight();
 
-	skybox = new Skybox();
+	//skybox = new Skybox();
 
 	loaded = true;
 }
@@ -28,7 +28,7 @@ void MainMenu::Update()
 {
 	//gluLookAt(0, 0, 0, 1, 0, 0, 0, 1, 0);
 
-	skybox->Update(vec3(0,0,0));
+	//skybox->Update(vec3(0,0,0));
 	CheckInput();
 	Draw();
 }
@@ -51,20 +51,22 @@ void MainMenu::DrawMainMenu() {
 	glLoadIdentity();
 	glColor3f(1.0f, 1.0f, 1.0f);
 
+	UI::BuildFont(-26);
+
 	glRasterPos2f(640, 300);
 	UI::glPrint("Start Game");
 	glRasterPos2f(640, 350);
-	UI::glPrint(difficulty.c_str());
+	UI::glPrint(difficultyText.c_str());
 	glRasterPos2f(640, 400);
 	UI::glPrint("Credits:");
 	glRasterPos2f(640, 450);
 	UI::glPrint("Quit");
 
 	if (creditsEnabled) {
-		for (int i = 0; i < 12; i++)
+		for (int i = 0; i < 4; i++)
 		{
 			glRasterPos2f(debugStringXPos, (i + 1) * 18);
-			PrintCredit(i + 1);
+			PrintCredits(i + 1);
 		}
 	}
 
@@ -90,21 +92,21 @@ void MainMenu::CheckInput() {
 			Input::getMousePosition().y >= 330 &&
 			Input::getMousePosition().y <= 350) 
 		{
-			//make enum
-			if (difficulty == difficultyEasy) 
+
+			if (difficultyText == difficultyEasy) 
 			{
-				difficulty = difficultyMed;
-				diff = medium;
+				difficultyText = difficultyMed;
+				GameManager::Instance->diff = medium;
 			}
-			else if (difficulty == difficultyMed)
+			else if (difficultyText == difficultyMed)
 			{
-				difficulty = difficultyHard;
-				diff = hard;
+				difficultyText = difficultyHard;
+				GameManager::Instance->diff = hard;
 			}
 			else
 			{
-				difficulty = difficultyEasy;
-				diff = easy;
+				difficultyText = difficultyEasy;
+				GameManager::Instance->diff = easy;
 			}
 		}
 
@@ -116,5 +118,28 @@ void MainMenu::CheckInput() {
 			creditsEnabled = true;
 		}
 
+	}
+}
+
+void MainMenu::PrintCredits(int id)
+{
+	UI::BuildFont(-17);
+
+	switch (id)
+	{
+	case 1:
+		UI::glPrint(creditLine1.c_str());
+		break;
+	case 2:
+		UI::glPrint(creditLine2.c_str());
+		break;
+	case 3:
+		UI::glPrint(creditLine3.c_str());
+		break;
+	case 4:
+		UI::glPrint(creditLine4.c_str());
+		break;
+	default:
+		break;
 	}
 }

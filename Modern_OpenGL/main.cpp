@@ -14,6 +14,7 @@
 #include <gl\gl.h>			// Header File For The OpenGL32 Library
 #include <gl\glu.h>			// Header File For The GLu32 Library
 #include "EngineCore.h"
+#include "GameManager.h"
 
 HDC			hDC = NULL;		// Private GDI Device Context
 HGLRC		hRC = NULL;		// Permanent Rendering Context
@@ -35,6 +36,8 @@ LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 #define LOCK_CURSOR TRUE
 /* GLOBALS */
 int screenWidth = 1366, screenHeight = 768;
+
+GameManager * gameManager;
 
 SceneManager * sceneManager;
 
@@ -75,6 +78,7 @@ int InitEngine(HWND & hWnd)
 	sceneManager = new SceneManager();
 	sceneManager->LoadScene("MainMenu");
 
+	gameManager = new GameManager();
 
 	return TRUE;
 }
