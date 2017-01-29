@@ -20,13 +20,13 @@ Enemy::Enemy(vec3 position)
 	else if (GameManager::Instance->diff == medium) {
 		diffSpeed = 2;
 		transform.setLocalScale(vec3(0.7, 0.7, 0.7));
-		GameManager::Instance->targetPoints = 30;
+		GameManager::Instance->targetPoints = 25;
 		GameManager::Instance->totalTime = 40;
 	}
 	else if (GameManager::Instance->diff == hard) {
 		diffSpeed = 4;
 		transform.setLocalScale(vec3(0.4, 0.4, 0.4));
-		GameManager::Instance->targetPoints = 12;
+		GameManager::Instance->targetPoints = 10;
 		GameManager::Instance->totalTime = 20;
 	}
 
