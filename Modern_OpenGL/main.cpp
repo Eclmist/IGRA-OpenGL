@@ -60,7 +60,7 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 
 int InitEngine(HWND & hWnd)
 {
-	ShowCursor(false);
+	//ShowCursor(false);
 
 	// Init Input functions
 	Input::initializeInput(hWnd);
@@ -73,7 +73,7 @@ int InitEngine(HWND & hWnd)
 
 	// Init Scene functions
 	sceneManager = new SceneManager();
-	sceneManager->LoadScene("Level01");
+	sceneManager->LoadScene("MainMenu");
 
 
 	return TRUE;
@@ -342,58 +342,58 @@ LRESULT CALLBACK WndProc(HWND	hWnd,			// Handle For This Window
 {
 	switch (uMsg)									// Check For Windows Messages
 	{
-		case WM_ACTIVATE:							// Watch For Window Activate Message
+	case WM_ACTIVATE:							// Watch For Window Activate Message
+	{
+		if (!HIWORD(wParam))					// Check Minimization State
 		{
-			if (!HIWORD(wParam))					// Check Minimization State
-			{
-				active = TRUE;						// Program Is Active
-			}
-			else
-			{
-				active = FALSE;						// Program Is No Longer Active
-			}
-
-			return 0;								// Return To The Message Loop
+			active = TRUE;						// Program Is Active
+		}
+		else
+		{
+			active = FALSE;						// Program Is No Longer Active
 		}
 
-		case WM_SYSCOMMAND:							// Intercept System Commands
-		{
-			switch (wParam)							// Check System Calls
-			{
-			case SC_SCREENSAVE:					// Screensaver Trying To Start?
-			case SC_MONITORPOWER:				// Monitor Trying To Enter Powersave?
-				return 0;							// Prevent From Happening
-			}
-			break;									// Exit
-		}
+		return 0;								// Return To The Message Loop
+	}
 
-		case WM_CLOSE:								// Did We Receive A Close Message?
+	case WM_SYSCOMMAND:							// Intercept System Commands
+	{
+		switch (wParam)							// Check System Calls
 		{
-			PostQuitMessage(0);						// Send A Quit Message
-			return 0;								// Jump Back
+		case SC_SCREENSAVE:					// Screensaver Trying To Start?
+		case SC_MONITORPOWER:				// Monitor Trying To Enter Powersave?
+			return 0;							// Prevent From Happening
 		}
+		break;									// Exit
+	}
 
-		case WM_KEYDOWN:							// Is A Key Being Held Down?
-		{
-			keys[wParam] = TRUE;					// If So, Mark It As TRUE
-			return 0;								// Jump Back
-		}
+	case WM_CLOSE:								// Did We Receive A Close Message?
+	{
+		PostQuitMessage(0);						// Send A Quit Message
+		return 0;								// Jump Back
+	}
 
-		case WM_KEYUP:								// Has A Key Been Released?
-		{
-			keys[wParam] = FALSE;					// If So, Mark It As FALSE
-			return 0;								// Jump Back
-		}
+	case WM_KEYDOWN:							// Is A Key Being Held Down?
+	{
+		keys[wParam] = TRUE;					// If So, Mark It As TRUE
+		return 0;								// Jump Back
+	}
 
-		case WM_SIZE:								// Resize The OpenGL Window
-		{
-			ReSizeGLScene(LOWORD(lParam), HIWORD(lParam));  // LoWord=Width, HiWord=Height
-			return 0;								// Jump Back
-		}
-		case WM_INPUT:
-		{
-			UINT dwSize = 40;
-			static BYTE lpb[40];
+	case WM_KEYUP:								// Has A Key Been Released?
+	{
+		keys[wParam] = FALSE;					// If So, Mark It As FALSE
+		return 0;								// Jump Back
+	}
+
+	case WM_SIZE:								// Resize The OpenGL Window
+	{
+		ReSizeGLScene(LOWORD(lParam), HIWORD(lParam));  // LoWord=Width, HiWord=Height
+		return 0;								// Jump Back
+	}
+	case WM_INPUT:
+	{
+		UINT dwSize = 40;
+		static BYTE lpb[40];
 
 			GetRawInputData((HRAWINPUT)lParam, RID_INPUT,
 				lpb, &dwSize, sizeof(RAWINPUTHEADER));
@@ -489,14 +489,14 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 {
 	MSG		msg;									// Windows Message Structure
 	BOOL	done = FALSE;								// Bool Variable To Exit Loop
-	
+
 
 	if (DEBUG_CONSOLE)
 	{
 		CreateDebugConsole();
 		std::cout << "Console loaded" << std::endl;
 	}
-														// Ask The User Which Screen Mode They Prefer
+	// Ask The User Which Screen Mode They Prefer
 	if (MessageBox(NULL, "Would You Like To Run In Fullscreen Mode?", "Start FullScreen?", MB_YESNO | MB_ICONQUESTION) == IDNO)
 	{
 		fullscreen = FALSE;							// Windowed Mode
@@ -542,6 +542,15 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 				{
 					done = TRUE;						// ESC Signalled A Quit
 				}
+				else if (sceneManager->GetActiveScene()->name == "MainMenu" &&
+					Input::getMouseDown(0)&&
+					Input::getMousePosition().x >= 635 &&
+					Input::getMousePosition().x <= 680 &&
+					Input::getMousePosition().y >= 430 &&
+					Input::getMousePosition().y <= 450) 
+				{
+					done = TRUE;
+				}
 				else								// Not Time To Quit, Update Screen
 				{
 
@@ -550,8 +559,8 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 
 					if (GetFocus() == hWnd)
 					{
-						if (LOCK_CURSOR)
-							SetCursorPos(screenWidth / 2, screenHeight / 2);
+						//if (LOCK_CURSOR)
+							//SetCursorPos(screenWidth / 2, screenHeight / 2);
 
 						Input::update(keys, mouse);
 					}

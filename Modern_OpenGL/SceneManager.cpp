@@ -1,5 +1,8 @@
 #include "SceneManager.h"
 #include "Level01.h"
+#include "MainMenu.h"
+
+SceneManager * SceneManager::Instance;
 
 SceneManager * SceneManager::Instance;
 
@@ -7,6 +10,7 @@ SceneManager::SceneManager()
 {
 	Instance = this;
 	loadedScene.push_back(new Level01());
+	loadedScene.push_back(new MainMenu());
 }
 
 SceneManager::~SceneManager()

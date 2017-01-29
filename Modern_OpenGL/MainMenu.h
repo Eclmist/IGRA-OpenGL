@@ -4,6 +4,13 @@
 #include "Skybox.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "SceneManager.h"
+
+enum Difficulty {
+	easy,
+	medium,
+	hard
+};
 
 class MainMenu : public Scene
 {
@@ -15,12 +22,24 @@ public:
 	virtual void Update();
 
 	void DrawMainMenu();
+	void CheckInput();
+
+	Difficulty diff = easy;
+
+	std::string difficulty;
+	std::string difficultyEasy = "Difficulty: Easy";
+	std::string difficultyMed = "Difficulty: Medium";
+	std::string difficultyHard = "Difficulty: Hard";
+
+	std::string creditLine1, creditLine2,
+		creditLine3, creditLine4;
 
 private:
 	virtual void Draw();
 
+	bool creditsEnabled = false;
+
 	Skybox * skybox;
-	Player * player;
 
 	std::vector<Enemy*> enemyobjects;
 };

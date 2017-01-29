@@ -18,12 +18,13 @@ public:
 	void EnemyUpdate();
 	void Move();
 	void Die(bool incrementPoint = true);
-	
+
 protected:
 	void setupMeshInformation();
 	void draw() override;
 
 	int moveSpeed = 1;
+	int diffSpeed;
 
 	bool dead = false;
 

@@ -1,4 +1,10 @@
 #pragma once
+enum Difficulty {
+	easy,
+	medium,
+	hard
+};
+
 class GameManager
 {
 public:
@@ -8,6 +14,10 @@ public:
 	void GameManagerUpdate();
 	void EndGame(bool won);
 	void PointIncrement();
+	void UpdateEnemyCount();
+
+	Difficulty diff;
+	int enemyCount;
 
 	int playerHealth;
 	int playerPoints;

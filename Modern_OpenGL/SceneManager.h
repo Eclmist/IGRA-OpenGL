@@ -9,6 +9,8 @@ public:
 	Scene * GetActiveScene();
 	static SceneManager* Instance;
 
+	static SceneManager* Instance;
+
 	bool LoadScene(std::string name);
 
 private:

@@ -20,7 +20,7 @@ Enemy::~Enemy()
 	delete texture;
 }
 
-void Enemy::setupMeshInformation() 
+void Enemy::setupMeshInformation()
 {
 	SamLoader::LoadModel("resources/model/target.obj", vertexArr, numVertices);
 	mesh = new Mesh(vertexArr, numVertices, TRIANGLES);

@@ -23,7 +23,7 @@ void Level01::Load()
 
 	skybox = new Skybox();
 	player = new Player(vec3(12, 3, -2));
-	gameManager = new GameManager();
+	gameManager = GameManager::Instance;
 
 	gameobjects.push_back(new Cube(vec3(0, 2, 0)));
 	gameobjects[0]->SetColliderActive(true);
@@ -61,15 +61,20 @@ void Level01::Load()
 	gameobjects.push_back(new Level01Prefab(vec3(0, -1, 1)));
 	gameobjects[8]->transform.setLocalScale(vec3(1.5, 3, 1.5));
 
+	GameManager::Instance->UpdateEnemyCount();
 
-	enemyobjects.push_back(new Enemy(vec3(0, 0, 0)));
-	enemyobjects.push_back(new Enemy(vec3(-3, 0, -5)));
-	enemyobjects.push_back(new Enemy(vec3(-6, 0, -8)));
-	enemyobjects.push_back(new Enemy(vec3(-9, 0, -3)));
-	enemyobjects.push_back(new Enemy(vec3(-4, 0, -1)));
-	enemyobjects.push_back(new Enemy(vec3(-9, 0, 1)));
-	enemyobjects.push_back(new Enemy(vec3(-7, 0, 3)));
-	enemyobjects.push_back(new Enemy(vec3(-1.5, 0, 5)));
+	for (int i = 0; i < GameManager::Instance->enemyCount; i++) {
+		enemyobjects.push_back(new Enemy(vec3(-rand() % 10, 0, (rand() % 10) - 8)));
+	}
+
+	//enemyobjects.push_back(new Enemy(vec3(0, 0, 0)));
+	//enemyobjects.push_back(new Enemy(vec3(-3, 0, -5)));
+	//enemyobjects.push_back(new Enemy(vec3(-6, 0, -8)));
+	//enemyobjects.push_back(new Enemy(vec3(-9, 0, -3)));
+	//enemyobjects.push_back(new Enemy(vec3(-4, 0, -1)));
+	//enemyobjects.push_back(new Enemy(vec3(-9, 0, 1)));
+	//enemyobjects.push_back(new Enemy(vec3(-7, 0, 3)));
+	//enemyobjects.push_back(new Enemy(vec3(-1.5, 0, 5)));
 
 	loaded = true;
 }

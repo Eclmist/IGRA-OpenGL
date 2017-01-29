@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "Input.h"
 #include "Time.h"
+#include "MainMenu.h"
 
 GameManager * GameManager::Instance;
 
@@ -25,10 +26,24 @@ void GameManager::GameManagerUpdate() {
 		EndGame(true);
 	}
 
-	else if (timeElapsed > totalTime || playerHealth <= 0) 
+	else if (timeElapsed > totalTime || playerHealth <= 0)
 	{
 		levelCompleted = true;
 		EndGame(false);
+	}
+}
+
+void GameManager::UpdateEnemyCount() {
+	switch (diff) {
+	case easy:
+		enemyCount = 12;
+		break;
+	case medium:
+		enemyCount = 7;
+		break;
+	case hard:
+		enemyCount = 4;
+		break;
 	}
 }
 
