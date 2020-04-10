@@ -1,5 +1,5 @@
 # IGRA-OpenGL
-A simple FPS graphics framework written in OpenGL and C++, as part of the IGRA module at Singapore Polytechnic. This project uses a really outdated version of OpenGL, but that was merely a requirement of the module.
+A simple FPS graphics framework written in OpenGL and C++.
 
 ## Some Features
 * Simple rigidbody physics (AABB, rays, spheres)
